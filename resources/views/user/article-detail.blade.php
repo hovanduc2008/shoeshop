@@ -1,0 +1,31 @@
+@extends('layouts.user-layout')
+
+@section('style')
+    <style>
+        .main-content {
+            min-height: 300px;
+            padding-left: 20px;
+        }
+
+        .article {
+            border: 1px solid #ccc;
+            min-height: 300px;
+            padding: 10px 13px;
+        }
+
+
+    </style>
+@endsection
+
+@section('main')
+    <div class="main-content">
+        <div class="article">
+            <h2>Giới trẻ ầm lên về giày</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odio impedit quasi enim veniam. Dicta soluta debitis, dolore quae voluptatibus ex provident quod sed sequi in deserunt, iure consequuntur voluptatum! Corrupti, sint alias consequuntur eaque nam voluptatum, atque optio animi impedit possimus ea. Nemo, enim vel molestias quasi veniam fugit repellat eos libero sequi deserunt consequuntur ipsam similique quos aspernatur, minima impedit atque laudantium quisquam tenetur natus modi aliquid. Ipsam hic laudantium doloremque provident quidem sapiente error, deserunt ea facilis cupiditate ducimus fugiat sed laboriosam vel iure! Pariatur omnis neque blanditiis ipsum nobis aspernatur repellendus deserunt assumenda rem consectetur. Voluptates officia repellat earum amet deleniti quibusdam laborum vitae architecto, asperiores minus totam iste veritatis. Dignissimos quod consequatur eveniet iusto amet reprehenderit expedita illo corporis alias enim placeat, minima, officia nisi qui accusantium labore numquam nulla vero. Veniam quod esse saepe quas quis suscipit dicta. Suscipit obcaecati distinctio, nostrum atque quidem, quam eveniet nihil magnam in repudiandae nulla maxime iusto alias tempore dolores quaerat accusamus totam iste consequatur fugiat sequi? Nulla, totam in cumque, earum atque recusandae nostrum molestias quaerat eveniet dignissimos corporis labore omnis laudantium autem officia eos eius magni odit soluta? Sint quibusdam vero ipsum labore corporis sit ratione mollitia dolorem magnam asperiores maiores illum quaerat voluptates deserunt suscipit commodi nulla, assumenda nemo doloribus dolor nostrum vitae sunt hic. Amet, quis blanditiis nam obcaecati deleniti tempore, illum ad delectus necessitatibus, voluptatem sint! Ex, cupiditate quisquam, iusto, deleniti voluptate placeat error tenetur quae nobis quas eveniet cum! Nihil adipisci doloribus maiores laudantium voluptatibus obcaecati rerum. Dolore at laborum, quibusdam, vitae iusto, unde asperiores ad non consectetur rerum deleniti magni odit magnam voluptate? Ea, suscipit? Cum voluptas error veniam consequuntur numquam incidunt sunt quas iusto voluptatum esse! Rerum quos natus facilis debitis amet inventore rem? Distinctio asperiores atque corrupti tempora voluptatem.</p>
+            <br>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate, ipsum. Magni excepturi, vel iste, iusto labore animi sit saepe quo, quisquam magnam ratione. Obcaecati, incidunt perspiciatis possimus nulla repellat unde nam quasi accusantium harum fugiat eos laborum ipsum excepturi reiciendis dolores vitae totam praesentium numquam impedit aliquid veritatis dolore nobis repudiandae? Autem sapiente voluptas sint nulla, pariatur at impedit molestiae quaerat optio? Nam incidunt velit aliquid, voluptatibus impedit nobis delectus sapiente exercitationem beatae quas eius iure commodi itaque quibusdam excepturi iste minima, quod repudiandae fuga maxime aspernatur! Ratione laborum facere, minima saepe veritatis numquam ducimus, maiores eos, atque fugit accusantium?</p>
+            <img  width="100%" src="https://i1-suckhoe.vnecdn.net/2024/01/17/giay-dep-4478-1705500452.png?w=680&h=0&q=100&dpr=1&fit=crop&s=UErtOpIGf1ijDqOhqa0AJA" alt="">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam labore velit eos sed eius quis dignissimos at voluptatibus? Rem earum officiis blanditiis dolores assumenda? Molestiae enim commodi earum beatae, maiores quas iste vel libero fugit quaerat ab officiis mollitia quidem consectetur? Nihil, magnam natus deserunt debitis rerum possimus. Voluptate, amet explicabo laudantium porro consequuntur at quas soluta obcaecati sed earum, ab distinctio, ratione enim incidunt dolorem harum. Facere blanditiis nostrum voluptate doloremque enim amet. Numquam quaerat quia sit vitae labore vero similique mollitia quas minus sequi ea cumque, officiis eius, perspiciatis distinctio. Natus aperiam suscipit mollitia nulla, harum numquam rem dolor ea ex quos, consectetur possimus! Reiciendis harum assumenda aspernatur velit quos repellendus maiores quas alias eius? Excepturi, consequuntur quas quam dolore veniam doloremque, hic harum, laudantium officia quasi animi dolorum quo. Sequi atque aliquam odio voluptate reiciendis, quos repudiandae tenetur explicabo voluptates laborum voluptatibus, autem hic! Blanditiis reiciendis ipsam similique voluptas dignissimos fugit quaerat, excepturi illum laborum adipisci quidem reprehenderit dicta iure sunt perspiciatis veniam alias, molestiae, eaque aut expedita quae delectus. Natus aperiam sint eveniet debitis laudantium tempora iste placeat deserunt quae nihil iusto commodi necessitatibus praesentium magni odit, recusandae eius expedita eum quo fugiat beatae sed ad ab minima! Ipsum voluptas perspiciatis iste dolores voluptatum saepe corporis in praesentium deleniti, quibusdam pariatur quod labore quas porro quisquam culpa aut vitae ducimus iusto dicta, aspernatur minima et facilis? Voluptatem, aspernatur esse aperiam minima voluptate vero impedit neque deserunt officia facilis sed dignissimos, enim maiores quos. Dolor voluptatum temporibus accusantium? Aliquam odio at corporis nemo officia asperiores molestiae facere? Nobis, ut explicabo. Nesciunt, atque ipsam id iste quod vel qui animi reprehenderit illum eveniet odit sunt accusantium quidem asperiores, praesentium sit ad velit repellendus ducimus, dolor reiciendis pariatur voluptatibus distinctio! Cumque sit voluptatum maxime aut dignissimos nam consectetur molestiae.</p>
+        </div>
+    </div>
+@endsection
