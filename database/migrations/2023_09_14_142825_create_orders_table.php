@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table -> enum('order_status', [0, 1, 2]) -> default(0) -> nulable();
             $table -> string('order_code') -> nulable();
             $table -> string('order_note') -> nulable();
-            $table -> datetime('successfully_delivery_at') -> nulable();
+            $table -> datetime('successfully_delivery_at');
             $table->softDeletes();
             $table -> timestamps();
 

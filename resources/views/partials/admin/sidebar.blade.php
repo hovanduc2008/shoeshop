@@ -10,20 +10,6 @@ l@php
             "route" => route('admin.customers')
         ],
         [
-            "title" => "Tác giả",
-            "subroute" => [
-                [
-                    "title" => "Danh sách tác giả",
-                    "route" => route('admin.authors')
-                ],
-                [
-                    "title" => "Thêm tác giả",
-                    "route" => route('admin.author.create'),
-                ],
-                
-            ]
-        ],
-        [
             "title" => "Danh mục",
             "subroute" => [
                 [
@@ -41,12 +27,8 @@ l@php
             "title" => "Sản phẩm",
             "subroute" => [
                 [
-                    "title" => "Danh sách bán",
+                    "title" => "Danh sách sản phẩm",
                     "route" => route('admin.products'),
-                ],
-                [
-                    "title" => "Danh sách cho mượn",
-                    "route" => route('admin.product.borrowproducts'),
                 ],
                 [
                     "title" => "Thêm sản phẩm",
@@ -58,16 +40,12 @@ l@php
             "title" => "Đơn hàng",
             "subroute" => [
                 [
-                    "title" => "Đơn bán",
+                    "title" => "Danh sách đơn hàng",
                     "route" => route('admin.orders'),
                 ],
                 [
-                    "title" => "Đơn mượn",
-                    "route" => route('admin.borrows')
-                ],
-                [
-                    "title" => "Tạo đơn mượn",
-                    "route" => route('admin.borrow.create')
+                    "title" => "Tạo đơn hàng",
+                    "route" => '/'
                 ],
                 [
                     "title" => "Thống kê",

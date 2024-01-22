@@ -15,13 +15,11 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('ISBN') -> uniqid();
             $table->unsignedBigInteger('added_by'); 
             $table->string('title');
             $table->string('slug');
             $table->string('image') -> default('');
             $table->string('thumbnail');
-            $table->unsignedBigInteger('author_id'); 
             $table->unsignedBigInteger('category_id'); 
             $table->bigInteger('price');
             $table->bigInteger('quantity');
@@ -29,15 +27,12 @@ class CreateProductsTable extends Migration
             $table->text('content') -> nullable();
             $table->string('meta_title') -> nullable();
             $table->text('meta_description') -> nullable();
-            $table->enum('type', [0, 1]) -> default(0);
             $table->enum('status', [0, 1]) -> default(1);
-            $table->date('publication_date') -> nullable();
-            $table->string('pdf_link') -> nullable();
+            $table->enum('hot', [0, 1]) -> default(1);
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('added_by')->references('id')->on('users');
-            $table->foreign('author_id')->references('id')->on('authors');
             $table->foreign('category_id')->references('id')->on('categories');
         });
     }

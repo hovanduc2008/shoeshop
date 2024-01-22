@@ -8,19 +8,14 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 
-use App\Repositories\Eloquent\AuthorEloquentRepository;
 use App\Repositories\Eloquent\ProductEloquentRepository;
 
 class CartController extends Controller
 {
-
-    protected $authorRepository;
     protected $productRepository;
 
     public function __construct(
-        AuthorEloquentRepository $authorRepository,
         ProductEloquentRepository $productRepository) {
-        $this -> authorRepository = $authorRepository;
         $this -> productRepository = $productRepository;
     }
 

@@ -2,13 +2,13 @@
 @extends('layouts.admin-layout')
 
 @php
-    $page_title = "Quản lý đầu sách";
-    $sub_page_title = "Tạo mới Sách";
+    $page_title = "Quản lý sản phẩm";
+    $sub_page_title = "Thêm sản phẩm";
 
 @endphp
 
 @section('main')
-    @if(count($authors) > 0 && count($categories) > 0)
+    @if(count($categories) > 0)
         <form action="{{route('admin.product.handleCreate')}}" method="post" enctype = "multipart/form-data">
             <div class="row">
                 <div class="col-12">
@@ -22,14 +22,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="ISBN">ISBN</label>
-                                            <input id="ISBN" name="ISBN" type="text" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="title">Tên sách</label>
+                                            <label for="title">Tên sản phẩm</label>
                                             <input id="title" name="title" type="text" class="form-control" required>
                                         </div>
-                                        
+                                        <div class="form-group">
+                                            <label for="price">Giá bán</label>
+                                            <input id="price" name="price" type="text" class="form-control" required>
+                                        </div>
                                     </div>
 
                                     <div class="col-sm-6">
@@ -44,26 +43,10 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="publication_date">Ngày xuất bản</label>
-                                            <input id="publication_date" name="publication_date" type="date" class="form-control">
-                                        </div>
-                                        <div class="form-group">
                                             <label for="quantity">Số lượng</label>
                                             <input id="quantity" name="quantity" type="text" class="form-control" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="price">Giá bán/ Giá cho mượn</label>
-                                            <input id="price" name="price" type="text" class="form-control" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label">Tác giả</label>
-                                            <select class="form-control select2" name = "author" required>
-                                                @foreach($authors as $author)
-                                                    <option value="{{ $author->id }}">{{ $author->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        
                                         <div class="form-group">
                                             <label class="control-label">Danh mục</label>
                                             <select class="form-control select2" name = "category" required>
@@ -72,14 +55,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Loại</label>
-                                            <select class="form-control select2" name = "type" required>
-                                                <option value="0">Sách bán</option>
-                                                <option value="1">Sách cho mượn</option>
-                                            </select>
-                                        </div>
-                                        
                                     </div>
 
                                     <div class="col-sm-6">
@@ -142,9 +117,7 @@
             @csrf
         </form>
     @endif
-    @if(!count($authors))
-        <h3>Vui lòng <a href="{{route('admin.author.create')}}">thêm Tác giả</a> trước khi tạo Sách</h3>
-    @endif
+    
     @if(!count($categories))
         <h3>Vui lòng <a href="{{route('admin.category.create')}}">thêm Danh mục</a> trước khi tạo Sách</h3>
     @endif

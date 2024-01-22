@@ -5,9 +5,6 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-// use App\Repositories\Eloquent\AuthorEloquentRepository;
-// use App\Repositories\Eloquent\ProductEloquentRepository;
-
 
 
 class ArticleController extends Controller

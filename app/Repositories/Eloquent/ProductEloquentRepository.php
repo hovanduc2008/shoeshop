@@ -10,7 +10,7 @@ class ProductEloquentRepository extends BaseEloquentRepository {
     }
 
     public function filterProducts($limit ,$sort_filter, $search, $author_id, $cate_id) {
-        $query = $this->model->select('products.*') -> where('type', '0');
+        $query = $this->model->select('products.*');
         
         if ($search) {
             $query = $query->where(function($query) use ($search) {

@@ -7,23 +7,19 @@ use Illuminate\Http\Request;
 
 use App\Repositories\Eloquent\ProductEloquentRepository;
 use App\Repositories\Eloquent\CategoryEloquentRepository;
-use App\Repositories\Eloquent\AuthorEloquentRepository;
 
 class SearchController extends Controller
 {
 
     protected $productRepository;
     protected $categoryRepository;
-    protected $authorRepository;
 
     public function __construct(
         ProductEloquentRepository $productRepository,
-        CategoryEloquentRepository $categoryRepository,
-        AuthorEloquentRepository $authorRepository
+        CategoryEloquentRepository $categoryRepository
     ) {
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
-        $this->authorRepository = $authorRepository;
     }
 
     public function index(Request $request) {
@@ -42,7 +38,6 @@ class SearchController extends Controller
         $products2 = $this -> productRepository -> searchProducts(1000, 'all', $sort, $search, $cate_list, $author_list);
         
         $categories = $this -> categoryRepository -> all();
-        $authors = $this -> authorRepository -> all();
         
         return view('user.search', compact('products', 'categories', 'authors', 'products2'));
     }

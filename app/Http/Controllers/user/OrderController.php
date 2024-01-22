@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Pdf;
 use App\Controllers\VNPayController;
 
-use App\Repositories\Eloquent\AuthorEloquentRepository;
 use App\Repositories\Eloquent\ProductEloquentRepository;
 use App\Repositories\Eloquent\OrderEloquentRepository;
 use App\Repositories\Eloquent\OrderDetailEloquentRepository;
@@ -20,18 +19,14 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
-
-    protected $authorRepository;
     protected $productRepository;
     protected $orderRepository;
     protected $orderDetailRepository;
 
     public function __construct(
-        AuthorEloquentRepository $authorRepository,
         ProductEloquentRepository $productRepository,
         OrderEloquentRepository $orderRepository,
         OrderDetailEloquentRepository $orderDetailRepository) {
-        $this -> authorRepository = $authorRepository;
         $this -> productRepository = $productRepository;
         $this -> orderRepository = $orderRepository;
         $this -> orderDetailRepository = $orderDetailRepository;

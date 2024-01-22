@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 use App\Repositories\Eloquent\ProductEloquentRepository;
 use App\Repositories\Eloquent\CategoryEloquentRepository;
-use App\Repositories\Eloquent\AuthorEloquentRepository;
 use Validator;
 
 use App\Http\Controllers\ImageController;
@@ -17,16 +16,14 @@ class ProductController extends Controller
 {
     protected $productRepository;
     protected $categoryRepository;
-    protected $authorRepository;
+    
 
     public function __construct(
         ProductEloquentRepository $productRepository,
-        CategoryEloquentRepository $categoryRepository,
-        AuthorEloquentRepository $authorRepository) {
+        CategoryEloquentRepository $categoryRepository) {
         
         $this -> productRepository = $productRepository;
         $this -> categoryRepository = $categoryRepository;
-        $this -> authorRepository = $authorRepository;
     }
 
     public function index(Request $request) {    
@@ -40,41 +37,21 @@ class ProductController extends Controller
                 $filters['cate_id'] ?? null,
             );
         }else {
-            $products  = $this -> productRepository -> paginateWhereOrderBy(['type' => '0'], 'updated_at','DESC', $request -> page ?? 1, 5, ['*']);
+            $products  = $this -> productRepository -> paginateWhereOrderBy([], 'updated_at','DESC', $request -> page ?? 1, 5, ['*']);
         }
 
         $current_filters = $request -> all();
         return view('admin.products.index', compact('products', 'current_filters'));
     }
 
-    public function borrowProducts(Request $request) {
-        
-        $filters = $this -> handleFilter($request);
-        if(count($filters) > 0) {
-            $products = $this -> productRepository -> filterBorrowProducts(
-                $filters['limit'] ?? 5, 
-                $filters['sort_filter'] ?? null,
-                $filters['search'] ?? null,
-                $filters['author_id'] ?? null,
-                $filters['cate_id'] ?? null,
-            );
-        }else {
-            $products  = $this -> productRepository -> paginateWhereOrderBy(['type' => '1'], 'updated_at','DESC', $request -> page ?? 1, 5, ['*']);
-        }
-
-        $current_filters = $request -> all();
-
-        
-        return view('admin.products.borrowproducts', compact('products', 'current_filters'));
-    }
+    
 
 
     // Create Product
     public function createForm() {
         $categories = $this -> categoryRepository -> all();
-        $authors = $this -> authorRepository -> all();
 
-        return view('admin.products.create', compact('categories', 'authors'));
+        return view('admin.products.create', compact('categories'));
     }
 
     public function handleCreate(Request $request,ImageController $img) {
@@ -106,10 +83,9 @@ class ProductController extends Controller
     // Edit Product
     public function editForm(Request $request) {
         $categories = $this -> categoryRepository -> all();
-        $authors = $this -> authorRepository -> all();
         $foundProduct = $this -> productRepository -> findById($request -> id);
 
-        return view('admin.products.edit', compact('categories', 'authors', 'foundProduct'));
+        return view('admin.products.edit', compact('categories', 'foundProduct'));
     }
 
     public function handleEdit(Request $request, ImageController $img) {

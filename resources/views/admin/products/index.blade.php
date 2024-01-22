@@ -71,13 +71,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col">
-                                <select name="author_id" class = "form-control" id="">
-                                    <option value="">
-                                        Tác giả
-                                    </option>
-                                </select>
-                            </div>
+                            
                             <div class="col">
                                 <select name="cate_id" class = "form-control" id="">
                                     <option value="">Danh mục</option>
@@ -103,9 +97,7 @@
                         <thead>
                             <tr>
                                 <th>Hình ảnh</th>
-                                <th>Tên sách</th>
-                                <th>Tác giả</th>
-                                <th>Ngày xuất bản</th>
+                                <th>Tên sản phẩm</th>
                                 <th>Số lượng</th>
                                 <th>Giá</th>
                                 <th>Action</th>
@@ -121,9 +113,6 @@
                                         <h6 class="mt-0 m-b-5">{{$product -> title}}</h6>
                                         <p class="m-0 font-14" style = "max-width: 250px; overflow: hidden">{{$product -> description}}</p>
                                     </td>
-                                    <td>{{$product -> author -> name}}</td>
-                                    
-                                    <td>{{date_format(date_create($product -> publication_date), 'd/m/Y')}}</td>
                                     <td>{{number_format($product -> quantity)}}</td>
                                     <td>{{number_format($product -> price)}}đ</td>
                                 
