@@ -15,12 +15,20 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table -> unsignedBigInteger('user_id');
-            $table -> string('article_title') -> nulable();
-            $table -> string('article_content') -> nulable();
-            $table -> string('article_image') -> nulable();
-            $table -> enum('article_status', [0, 1]) -> default(0) -> nulable();
+            $table -> unsignedBigInteger('added_by');
+            $table -> string('title');
+            $table -> string('slug');
+            $table -> text('description') -> nullable();
+            $table -> text('content')  -> nullable();
+            $table -> string('meta_title')  -> nullable();
+            $table -> string('meta_description')  -> nullable();
+            $table -> string('image') -> default('') ;
+            $table->string('thumbnail') ;
+            $table->enum('status', [0, 1]) -> default(1);
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('added_by')->references('id')->on('users');
         });
     }
 

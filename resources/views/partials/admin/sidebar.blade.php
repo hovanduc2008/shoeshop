@@ -37,6 +37,19 @@ l@php
             ]
         ],
         [
+            "title" => "Bài viết",
+            "subroute" => [
+                [
+                    "title" => "Danh sách bài viết",
+                    "route" => route('admin.articles'),
+                ],
+                [
+                    "title" => "Thêm bài viết",
+                    "route" => route('admin.article.create'),
+                ]
+            ]
+        ],
+        [
             "title" => "Đơn hàng",
             "subroute" => [
                 [

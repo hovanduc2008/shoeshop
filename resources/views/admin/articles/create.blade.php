@@ -1,11 +1,11 @@
 @extends('layouts.admin-layout')
 
 @php
-    $page_title = "Thêm danh mục";
+    $page_title = "Thêm bài viết";
 @endphp
 
 @section('main')
-<form action="{{route('admin.category.handleCreate')}}" method="post" enctype = "multipart/form-data">
+<form action="{{route('admin.article.handleCreate')}}" method="post" enctype = "multipart/form-data">
     <div class="row">
         <div class="col-12">
             <div class="card m-b-20">
@@ -14,7 +14,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="title">Tên danh mục</label>
+                                    <label for="title">Tiêu đề</label>
                                     <input id="title" name="title" type="text" class="form-control" required>
                                 </div>
                                 <div class="form-group">

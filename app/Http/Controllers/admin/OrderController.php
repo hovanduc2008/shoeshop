@@ -46,8 +46,7 @@ class OrderController extends Controller
     public function detail(Request $request) {
         $foundOrder = $this -> orderRepository -> findById($request -> id);
         $products = $this -> orderDetailRepository -> joinFindId('order_id', '=', $foundOrder -> id, 'products', 'product_id', [
-            'title',
-            
+            'title',    
         ]);
         
         return view('admin.orders.detail', compact('foundOrder', 'products'));

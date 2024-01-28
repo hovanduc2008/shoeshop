@@ -1,7 +1,7 @@
 @extends('layouts.admin-layout')
 
 @php
-    $page_title = "Quản lý danh mục";
+    $page_title = "Quản lý bài viết";
 
     $status_option = [
         "2" => "Tất cả",
@@ -20,7 +20,7 @@
         5, 10, 20, 30, 50    
     ];
 
-    $pagination = $categories;
+    $pagination = $articles;
 @endphp
 
 @section('main')
@@ -66,7 +66,7 @@
                         <div class="col-2 ml-3">
                             <div class="row">
                                 <button class="btn btn-info" type="submit">Lọc</button>
-                                <a class="btn btn-secondary ml-2" href="{{route('admin.categories')}}">Hủy lọc</a>    
+                                <a class="btn btn-secondary ml-2" href="{{route('admin.articles')}}">Hủy lọc</a>    
                             </div>
                         </div>
                     </form>
@@ -78,28 +78,28 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Hình ảnh</th>
-                                    <th>Tên danh mục</th>
+                                    <th>Tiêu đề</th>
                                     <th>Ngày thêm</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($categories as $category)
+                                @foreach($articles as $article)
                                     <tr>
-                                        <td>#{{$category -> id}}</td>
+                                        <td>#{{$article -> id}}</td>
                                         <td class="product-list-img">
-                                            <img src="{{$category -> thumbnail}}" class="img-fluid" alt="tbl">
+                                            <img src="{{$article -> thumbnail}}" class="img-fluid" alt="tbl">
                                         </td>
                                         <td style = "max-width: 400px; overflow: hidden;">
-                                            <h6 class="mt-0 m-b-5">{{$category -> title}}</h6>
-                                            <p style = "max-width: 90%; text-wrap: wrap; display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;" class="m-0 font-14">{{$category -> description}}</p>
+                                            <h6 class="mt-0 m-b-5">{{$article -> title}}</h6>
+                                            <p style = "max-width: 90%; text-wrap: wrap; display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2;  -webkit-box-orient: vertical;" class="m-0 font-14">{{$article -> description}}</p>
                                         </td>
-                                        <td>{{date_format(date_create($category -> created_at), 'd/m/Y H:m:s')}}</td>
+                                        <td>{{date_format(date_create($article -> created_at), 'd/m/Y H:m:s')}}</td>
                                         
                                     
                                         <td>
-                                            <a href="{{route('admin.category.edit', $category -> id)}}" class="m-r-15 text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-18"></i></a>
-                                            <button class = "btn-danger" data-toggle="modal" data-target=".bs-delete-modal-sm" onclick = "modalConfirmDelete('Xác nhận xóa danh mục', 'Danh mục này sẽ bị xóa và không thể khôi phục', '{{route('admin.category.delete', $category -> id)}})')" class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-close font-18"></i></button>
+                                            <a href="{{route('admin.article.edit', $article -> id)}}" class="m-r-15 text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-18"></i></a>
+                                            <button class = "btn-danger" data-toggle="modal" data-target=".bs-delete-modal-sm" onclick = "modalConfirmDelete('Xác nhận xóa danh mục', 'Danh mục này sẽ bị xóa và không thể khôi phục', '{{route('admin.article.delete', $article -> id)}})')" class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-close font-18"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach   

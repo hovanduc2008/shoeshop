@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Route;
 // Admin Controller
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\CustomerController;
-use App\Http\Controllers\admin\BorrowController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\AuthorController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\ArticleController;
 
 // User Controller
 use App\Http\Controllers\user\HomeController as UserHomeController;
@@ -50,6 +50,7 @@ Route::prefix('/admin') -> group(function() {
     
 
     Route::prefix('/') -> group(function() {
+        Route::view('/' ,'admin.dashboard.index') -> name('admin.dashboard');
         Route::get('/register', [AuthController::class, 'register']) -> name('admin.register');
         Route::get('/login', [AuthController::class, 'login']) -> name('admin.login');
 
@@ -68,24 +69,6 @@ Route::prefix('/admin') -> group(function() {
     Route::middleware('admin.login') -> prefix('customer') -> group(function() {
         Route::get('/', [CustomerController:: class, 'index']) -> name('admin.customers');
     });
-
-
-
-    // Borrow Route------------------------------------------------------------------------
-    Route::middleware('admin.login') -> prefix('borrows') -> group(function() {
-        Route::get('/', [BorrowController:: class, 'index']) -> name('admin.borrows');
-
-        Route::get('/create', [BorrowController::class, 'createForm']) -> name('admin.borrow.create');
-        Route::post('/create', [BorrowController::class, 'handleCreate']) -> name('admin.borrow.handleCreate');
-
-        Route::get('edit/{id}', [BorrowController::class, 'editForm']) -> name('admin.borrow.edit');
-        Route::put('edit/{id}', [BorrowController::class, 'handleEdit']) -> name('admin.borrow.handleEdit');
-
-        Route::get('/filterbyuser/{user_id}/{type}', [BorrowController:: class, 'filterByUser']) -> name('admin.borrow.filterbyuser');
-        Route::get('/filterbyproduct/{product_id}', [BorrowController:: class, 'filterByProduct']) -> name('admin.borrow.filterbyproduct');
-    });
-
-
 
     // Product Route------------------------------------------------------------------------
     Route::middleware('admin.login') -> prefix('product') -> group(function() {
@@ -117,6 +100,20 @@ Route::prefix('/admin') -> group(function() {
         Route::put('edit/{id}', [CategoryController::class, 'handleEdit']) -> name('admin.category.handleEdit');
 
         Route::delete('delete/{id}', [CategoryController::class, 'handleDelete']) -> name('admin.category.delete');
+    });
+
+     // Category Route------------------------------------------------------------------------
+     Route::middleware('admin.login') -> prefix('article') -> group(function() {
+
+        Route::get('/', [ArticleController::class, 'index']) -> name('admin.articles');;
+
+        Route::get('create', [ArticleController::class, 'createForm']) -> name('admin.article.create');
+        Route::post('create', [ArticleController::class, 'handleCreate']) -> name('admin.article.handleCreate');
+
+        Route::get('edit/{id}', [ArticleController::class, 'editForm']) -> name('admin.article.edit');
+        Route::put('edit/{id}', [ArticleController::class, 'handleEdit']) -> name('admin.article.handleEdit');
+
+        Route::delete('delete/{id}', [ArticleController::class, 'handleDelete']) -> name('admin.article.delete');
     });
 
 
