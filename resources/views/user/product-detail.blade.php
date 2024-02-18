@@ -108,46 +108,62 @@
     </style>
 @endsection
 
+@php 
+        $size_list = ["39", "39-40", "40", "40-41", "41", "40-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "45-46", "46", "47", "48", "49"];
+@endphp 
+
 @section('main')
-    <div class="product-detail">
-        <div class="top">
-            <div class="left">
-                <div class="img">
-                    <img src="https://hoang-phuc.com/media/catalog/product/1/_/1_240_9.jpg?optimize=high&fit=bounds&height=1280&width=1280&canvas=1280:1280" alt="">
+    @if(!empty($foundProduct))
+        <div class="product-detail">
+            <div class="top">
+                <div class="left">
+                    <div class="img">
+                        <img src="{{$foundProduct -> image}}" alt="">
+                    </div>
                 </div>
+                <form method = "POST" action="{{route('addToCart', ['productId' => $foundProduct -> id])}}" class="right">
+                    <div class="name">
+                        <h3>{{$foundProduct -> title}}</h3>
+                    </div>
+                    <div class="select">
+                        <p>Khuyến mãi</p>
+                        <select name="size" id="">
+                            <option value="0">-Size sản phẩm-</option>
+                            @foreach($size_list as $size)
+                                <option value="{{$size}}">{{$size}}</option>
+                            @endforeach
+                        </select>
+                        <p class="price">
+                            @if(!empty($foundProduct -> discount))
+                                <span>Giá gốc: {{number_format($foundProduct -> price)}}đ</span>
+                                <span>Giá mới: {{number_format($foundProduct -> price - $foundProduct -> price * $foundProduct -> discount / 100)}}đ</span>
+                            @else 
+                                <span></span>
+                                <span>Giá bán: {{number_format($foundProduct -> price)}}đ</span>
+                            @endif
+                        </p>
+                    </div>
+                    @csrf
+                    @method('POST')
+                    <button type="submit">
+                        <i class="fa-solid fa-bag-shopping"></i>Thêm vào giỏ hàng
+                    </button>
+                </form>
             </div>
-            <div class="right">
-                <div class="name">
-                    <h3>Giày Sneaker</h3>
+            <div class="bottom">
+                <div class="control">
+                    <p class = "active">Mô tả sản phẩm</p>
+                    <p>Hướng dẫn mua hàng</p>
+                    <p>Bình luận</p>
                 </div>
-                <div class="select">
-                    <p>Khuyến mãi</p>
-                    <select name="" id="">
-                        <option value="">-Size sản phẩm-</option>
-                    </select>
-                    <p class="price">
-                        <span>Giá gốc: 200.000đ</span>
-                        <span>Giá mới: 156.000đ</span>
+                <div class="content">
+                    <p>
+                        {!!$foundProduct -> description!!}
                     </p>
                 </div>
-                <button type="submit">
-                    <i class="fa-solid fa-bag-shopping"></i>Thêm vào giỏ hàng
-                </button>
             </div>
         </div>
-        <div class="bottom">
-            <div class="control">
-                <p class = "active">Mô tả sản phẩm</p>
-                <p>Hướng dẫn mua hàng</p>
-                <p>Bình luận</p>
-            </div>
-            <div class="content">
-                <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos neque obcaecati adipisci illo alias, doloribus quos, provident dignissimos maxime excepturi saepe explicabo, debitis delectus voluptatibus vero blanditiis asperiores! Tenetur voluptatem incidunt, hic ea, deleniti optio velit non ex quae dolores vel laborum dolorum ducimus mollitia voluptates esse obcaecati aliquid totam!
-                </p>
-            </div>
-        </div>
-    </div>
+    @endif
 @endsection
 
 @section('scripts')

@@ -22,16 +22,16 @@ class ArticleEloquentRepository extends BaseEloquentRepository {
         if ($sort_filter) {
             switch ($sort_filter) {
                 case 'latest':
-                    $query = $query->orderBy('categories.created_at', 'desc');
+                    $query = $query->orderBy('created_at', 'desc');
                     break;
                 case 'oldest':
-                    $query = $query->orderBy('categories.created_at', 'asc');
+                    $query = $query->orderBy('created_at', 'asc');
                     break;
                 case 'a_z':
-                    $query = $query->orderBy('categories.title', 'asc');
+                    $query = $query->orderBy('title', 'asc');
                     break;
                 case 'z_a':
-                    $query = $query->orderBy('categories.title', 'desc');
+                    $query = $query->orderBy('title', 'desc');
                     break;
                 default:
                     break;

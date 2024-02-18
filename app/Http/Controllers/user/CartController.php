@@ -27,11 +27,13 @@ class CartController extends Controller
             $cart = $request->session()->get('cart');
         }
         $productsInCart = [];
+
         foreach ($cart as $item) {
             
             $product = $this -> productRepository -> findById($item['productid']);
             if ($product) {
                 $product->quantityInCart = $item['cart_quantity'];
+                $product -> product_size = $item['product_size'];
                 $productsInCart[] = $product;
             }
         } 
@@ -41,7 +43,9 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $productId)
     {
+        if(empty($request -> size)) return redirect()->back();
         $product = Product::findOrFail($productId);
+        $productSize = $request -> size;
 
         // Kiểm tra xem giỏ hàng đã tồn tại hay chưa
         if (!$request->session()->has('cart')) {
@@ -52,8 +56,9 @@ class CartController extends Controller
 
         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng hay chưa
         $existingProduct = null;
+
         foreach ($cart as $key => $item) {
-            if ($item['productid'] == $productId) {
+            if ($item['productid'] == $productId && $item['product_size'] == $productSize) {
                 $existingProduct = $key;
                 break;
             }
@@ -66,8 +71,9 @@ class CartController extends Controller
             // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới
             $cart[] = [
                 'productid' => $productId,
-                'cart_quantity' => $request->cart_quantity,
+                'cart_quantity' => 1,
                 'quantity' => $request->cart_quantity,
+                'product_size' => $productSize
             ];
         }
 
@@ -80,18 +86,23 @@ class CartController extends Controller
     public function updateOrder(Request $request)
     {
         if (count($request->all()) > 0) {
+            
             $cart = $request->session()->get('cart');
 
-            foreach ($cart as &$item) {
-                $product = $this->findProduct($request->all(), $item['productid']);
+            //return response()->json($cart);
 
-                if ($product) {
+            foreach ($cart as &$item) {
+                $product = $this->findProduct($request->all(), $item['productid'], $item['product_size']);
+                
+                if (!empty($product)) {
                     $item['quantity'] = $product['quantity'];
-                    $item['checked'] = 1;
+                    $item['checked'] = '1';
                 } else {
-                    $item['checked'] = 0;
+                    $item['checked'] = '0';
                 }
             }
+
+            
             
             $request->session()->put('cart', $cart);
             return response()->json(route('createOrder'));
@@ -100,10 +111,10 @@ class CartController extends Controller
         return 0;
     }
 
-    public function findProduct($cart, $productId)
+    public function findProduct($cart, $productId, $size)
     {
         foreach ($cart as $product) {
-            if ($product['productId'] == $productId) {
+            if ($product['productId'] == $productId && $product['size'] == $size) {
                 return $product;
             }
         }

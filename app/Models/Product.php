@@ -17,6 +17,7 @@ class Product extends Model
         'added_by',
         'title',
         'slug',
+        'hot',
         'image',
         'thumbnail',
         'price',
@@ -27,7 +28,8 @@ class Product extends Model
         'meta_title',
         'meta_description',
         'deleted_at',
-        'status'
+        'status',
+        'discount'
     ];
 
 }

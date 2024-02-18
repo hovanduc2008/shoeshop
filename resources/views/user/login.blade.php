@@ -19,18 +19,18 @@
             <div class="title">
                 <h3>Đăng nhập</h3>
             </div>
-            <form action="">
+            <form action="{{route('handle-login')}}" method = "POST">
                 <table>
                     <tr>
                         <td><label for="">Email</label></td>
                         <td>
-                            <input type="text">
+                            <input name = "email" type="text">
                         </td>
                     </tr>
                     <tr>
                         <td><label for="">Password</label></td>
                         <td>
-                            <input type="text">
+                            <input name = "password" type="text">
                         </td>
                     </tr>
                     <tr>
@@ -40,6 +40,8 @@
                         </td>
                     </tr>
                 </table>   
+                @method('POST') 
+                @csrf
             </form>
         </div>
     </div>

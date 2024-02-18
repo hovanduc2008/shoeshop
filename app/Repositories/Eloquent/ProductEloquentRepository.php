@@ -9,7 +9,7 @@ class ProductEloquentRepository extends BaseEloquentRepository {
         return Product::class;
     }
 
-    public function filterProducts($limit ,$sort_filter, $search, $author_id, $cate_id) {
+    public function filterProducts($limit ,$sort_filter, $search, $cate_id) {
         $query = $this->model->select('products.*');
         
         if ($search) {
@@ -18,59 +18,7 @@ class ProductEloquentRepository extends BaseEloquentRepository {
                     ->orWhere("title", "like", "%$search%");
             });
         }
-
-        if ($author_id) {
-            $query = $query->where("author_id", $author_id);
-        }
-
-        if ($cate_id) {
-            $query = $query->where("category_id", $cate_id);
-        }
         
-    
-        if ($sort_filter) {
-            switch ($sort_filter) {
-                case 'latest':
-                    $query = $query->orderBy('products.created_at', 'desc');
-                    break;
-                case 'oldest':
-                    $query = $query->orderBy('products.created_at', 'asc');
-                    break;
-                case 'price_asc':
-                    $query = $query->orderBy('products.price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query = $query->orderBy('products.price', 'desc');
-                    break;
-                case 'a_z':
-                    $query = $query->orderBy('products.title', 'asc');
-                    break;
-                case 'z_a':
-                    $query = $query->orderBy('products.title', 'desc');
-                    break;
-                default:
-                    break;
-            }
-        }
-    
-        $result = $query -> paginate($limit);
-        return $result;
-    }
-
-    public function filterBorrowProducts($limit ,$sort_filter, $search, $author_id, $cate_id) {
-        $query = $this->model->select('products.*') -> where('type', '1');
-        
-        if ($search) {
-            $query = $query->where(function($query) use ($search) {
-                $query->orWhere('id',"like",  "%$search%")
-                    ->orWhere("title", "like", "%$search%");
-            });
-        }
-
-        if ($author_id) {
-            $query = $query->where("author_id", $author_id);
-        }
-
         if ($cate_id) {
             $query = $query->where("category_id", $cate_id);
         }

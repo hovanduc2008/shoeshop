@@ -46,6 +46,7 @@ class OrderController extends Controller
     }
 
     public function createOrder(Request $request) {
+        if(!(auth() -> guard('web') -> check())) return redirect(route('cart'));
         $cart = session() -> get('cart');
         $productsInCart = [];
         $totalPrice = 0;
@@ -55,8 +56,9 @@ class OrderController extends Controller
             if($item['checked'] == 1) {
                 $product = $this -> productRepository -> findById($item['productid']);
                 if ($product) {
-                    $totalPrice += ($product['price'] * $item['quantity']);
+                    $totalPrice += ($product['price'] * $item['quantity'] - $product['price'] * $item['quantity'] * $product['discount'] / 100);
                     $product->quantityInCart = $item['quantity'];
+                    $product->product_size = $item['product_size'];
                     $productsInCart[] = $product;
                     $order_title .= $product -> title.', ';
                 }
@@ -65,60 +67,9 @@ class OrderController extends Controller
 
         $count = count($productsInCart);
 
-        //if(count($cart) <= 0) return redirect() -> route('cart');
+        if(count($cart) <= 0) return redirect() -> route('cart');
 
         return view('user.order-confirm',  compact('productsInCart', 'count', 'totalPrice'));
-    }
-
-    public function orderNow(Request $request) {
-        $productId = $request -> productId;
-        $product = Product::findOrFail($productId);
-
-        // Kiểm tra xem giỏ hàng đã tồn tại hay chưa
-        if (!$request->session()->has('cart')) {
-            $cart = [];
-        } else {
-            $cart = $request->session()->get('cart');
-        }
-
-        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng hay chưa
-        $existingProduct = null;
-        foreach ($cart as $key => $item) {
-            $item['checked'] = 0;
-            if ($item['productid'] == $productId) {
-                $existingProduct = $key;
-                break;
-            }
-        }
-        $cart = $request->session()->get('cart');
-
-        foreach ($cart as &$item) {
-            if (!($item['productid'] == $productId)) {
-                $item['checked'] = 0;
-            }
-        }
-
-        $request->session()->put('cart', $cart);
-
-        // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng
-        if ($existingProduct !== null) {
-            $cart[$existingProduct]['cart_quantity'] = $request->cart_quantity;
-            $cart[$existingProduct]['checked'] = 1;
-        } else {
-            // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới
-            $cart[] = [
-                'productid' => $productId,
-                'quantity' => $request->cart_quantity,
-                'cart_quantity' => $request->cart_quantity,
-                'checked' => 1
-            ];
-        }
-        
-        // Lưu lại giỏ hàng trong session
-        $request->session()->put('cart', $cart);
-
-       
-        return redirect() -> route('createOrder');
     }
 
     public function submitOrder(Request $request) {
@@ -138,8 +89,9 @@ class OrderController extends Controller
             if($item['checked'] == 1) {
                 $product = $this -> productRepository -> findById($item['productid']);
                 if ($product) {
-                    $totalPrice += ($product['price'] * $item['quantity']);
+                    $totalPrice += ($product['price'] * $item['quantity'] - $product['price'] * $item['quantity'] * $product['discount'] / 100);
                     $product->quantityInCart = $item['quantity'] ?? 1;
+                    $product->product_size = $item['product_size'];
                     $productsInCart[] = $product;
                 }
             }
@@ -148,7 +100,7 @@ class OrderController extends Controller
         $request -> merge([
             'user_id' => auth() -> guard('web') -> user() -> id,
             'total_amount' => $totalPrice,
-            'order_note' => $request -> note,
+            'order_note' => $request -> note ?? 'Ghi chú',
             'payment_method' => $request -> pay_method,
             'order_code' => '',
             'order_title' => 'Order Details'
@@ -161,11 +113,11 @@ class OrderController extends Controller
         
         foreach($productsInCart as $product) {
             DB::table('order_details') -> insert([
-                'addby_id' => auth() -> guard('web') -> user() -> id,
                 'product_id' => $product -> id,
+                'size' => $product->product_size,
                 'order_id' => $orderId,
                 'quantity' => $product -> quantityInCart,
-                'item_price' => $product -> price
+                'item_price' => $product -> price - $product -> price * $product -> discount / 100
             ]);
         }
 

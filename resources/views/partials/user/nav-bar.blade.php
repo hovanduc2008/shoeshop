@@ -2,7 +2,7 @@
     $menu_list = [
         [
             "title" => "TRANG CHỦ",
-            "link" => '#'
+            "link" => route('home-page')
         ],
         [
             "title" => "GIỚI THIỆU",
@@ -15,7 +15,7 @@
         ],
         [
             "title" => "TIN TỨC",
-            "link" => "#"
+            "link" => route('article')
         ],
         [
             "title" => "ĐÁNH GIÁ WEBSITE",
@@ -36,10 +36,10 @@
             @endforeach
         </div>
         <div class="right">
-            <a class="cart" href="">
+            <a class="cart_btn" href="{{route('cart')}}">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span>MY CART</span>
-                <span>0</span>
+                <span>{{session() -> get('cart') != null && count(session() -> get('cart')) > 0 ? count(session() -> get('cart')) : 0}}</span>
             </a>
         </div>
     </div>

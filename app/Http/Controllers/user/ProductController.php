@@ -23,16 +23,14 @@ class ProductController extends Controller
     }
 
     public function detail(Request $request)
-    {
-        
-
-        return view('user.product-detail');
-    }
-
-    public function readbook(Request $request)
-    {    
-        $pdfUrl = 'http://localhost:8000/storage/uploads/pdf_file/Ngoi-khoc-tren-cay.pdf';
-
-        return response() -> make('', 302)->header('Location', $pdfUrl)->header('Content-Type', '');
+    {   
+        $slug = $request -> slug;
+        if (!empty($slug)) {
+            $foundProduct = $this -> productRepository -> findBySlug($slug);
+            if($foundProduct -> status != '1') $foundProduct = null;
+        }else {
+            $foundProduct = null;
+        }
+        return view('user.product-detail', compact('foundProduct'));
     }
 }

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Controllers\ImageController;
+
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Mail\ForgetPasswordMail;
@@ -17,10 +19,16 @@ use Mail;
 class AuthController extends Controller
 {
     public function login() {
+        if(Auth::guard('web') -> check()){
+            Auth::guard('web') -> logout();
+        }
         return view('user.login');
     }
 
     public function register() {
+        if(Auth::guard('web') -> check()){
+            Auth::guard('web') -> logout();
+        }
         return view('user.register');
     }
 
@@ -45,26 +53,30 @@ class AuthController extends Controller
             ->withInput($request->only('email'));
     }
 
-    public function handleRegister(Request $request)
+    public function handleRegister(Request $request, ImageController $img)
     {
         $validator = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-            'password_confirmation' => 'same:password|min:6'
+            'phone_number' => 'required|string|max:255|unique:users',
+            //'password_confirmation' => 'same:password|min:6'
         ]);
 
-        $user = User::create([
+        $data_create = array_merge($img -> upload($request), [
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'phone_number' => $request->phone_number
         ]);
+
+        $user = User::create($data_create);
 
         $notify = "
             
         ";
 
-        return redirect()->route('auth')->withFragment('register')->withInput()->with('success', $notify);
+        return redirect()->route('login-form')->withFragment('register')->withInput()->with('success', $notify);
     }
 
     public function handleLogout (Request $request) {

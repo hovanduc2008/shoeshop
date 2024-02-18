@@ -1,11 +1,15 @@
-@extends('layouts.user-onlyheader-layout')
+@extends('layouts.user-layout')
 
 @section('style')
     <style>
+        .main-content {
+            min-height: 300px;
+            padding-left: 20px;
+        }
         .cart {
-            display: flex;
-            justify-content: center;
-            font-size: 1.6rem;
+            border: 1px solid #ccc;
+            min-height: 300px;
+            padding: 10px 13px;
         }
 
         .cart .title {
@@ -15,14 +19,12 @@
             font-weight: 500;
         }
 
-        .cart .container {
+        .cart .contai {
             margin: 7px 0;
         }
 
-        .cart .container .cart-content {
-           display: grid;
-           grid-template-columns: 3fr 1fr;
-           grid-gap: 10px;
+        .cart .contai .cart-content {
+           
         }
 
         .cart-content .right .total-price,
@@ -30,7 +32,7 @@
         .cart-content .left .cart-body {
             background-color: #fff;
             border-radius: 5px;
-            padding: 20px 13px;
+            padding: 10px 13px;
         }
 
         .cart-content .left .cart-header {
@@ -119,6 +121,13 @@
             background: red;
         }
 
+        .cart .item-size {
+            width: 80px;
+            padding-left: 7px;
+            display: flex;
+            align-items: center;
+        }
+        
         .cart .item-quantity {
             width: 140px;
             padding-left: 7px;
@@ -126,6 +135,7 @@
 
         .detail-info  {
             flex: 1;
+            padding-left: 10px;
         }
 
         .detail-info .price {
@@ -263,8 +273,9 @@
 @endsection
 
 @section('main')
-    <div class="cart">
-        <div class="container">
+    <div class = "main-content">
+        <div class="cart">
+            <div class="contai">
             <h2 class="title">
                 GIỎ HÀNG ({{$count}} sản phẩm)
             </h2>
@@ -276,6 +287,9 @@
                         </div>
                         <div class = "info" style = "margin-left: 7px">
                             <span>Chọn tất cả ({{$count}} sản phẩm)</span>
+                        </div>
+                        <div class = "item-size">
+                            <span>Size</span>
                         </div>
                         <div class = "item-quantity">
                             <span>Số lượng</span>
@@ -292,19 +306,27 @@
                             $total = 0;
                         @endphp 
                         @foreach($productsInCart as $product)
-                            <div class="product-item" data-product-id = "{{$product -> id}}">
+                            <div class="product-item" data-product-size = "{{$product -> product_size}}" data-product-id = "{{$product -> id}}">
                                 <div class="select">
                                     <input type="checkbox" name="" id="">
                                 </div>
                                 <div class="info">
-                                    <div class="img"><img src="{{$product -> image}}" alt=""></div>
                                     <div class="detail-info">
                                         <div class="name"><a target = "_blank" href="{{route('product_detail', ['slug' => $product -> slug])}}">{{$product -> title}}</a></div>
                                         <div class="price">
-                                            <p class="real-price">{{number_format($product -> price)}} ₫</p>
-                                            <p class="old-price">{{number_format($product -> price)}} ₫</p>
+                                            @if(!empty($product -> discount))
+                                                <p class="real-price">{{number_format($product -> price - $product -> price * $product -> discount / 100)}} ₫</p>
+                                                <p class="old-price">{{number_format($product -> price)}} ₫</p>
+                                            @else 
+                                                <p class="real-price">{{number_format($product -> price)}} ₫</p>
+                                                <p class="old-price"></p>
+                                            @endif 
+                                            
                                         </div>
                                     </div>
+                                </div>
+                                <div class = "item-size" >
+                                    {{$product -> product_size ?? ''}}
                                 </div>
                                 <div class = "item-quantity">
                                     <input type="number" min = "1" max = "{{$product -> quantity}}" value = "{{$product -> quantityInCart}}" style = "width: 50px">
@@ -312,7 +334,7 @@
 
                                 <div class = "item-total">
                                     @php 
-                                        $productTotal = $product -> price * $product -> quantityInCart;
+                                        $productTotal = ($product -> price - $product -> price * $product -> discount / 100) * $product -> quantityInCart;
                                         $total += $productTotal;
                                         $count++;
                                     @endphp
@@ -343,6 +365,7 @@
                         </button>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -457,11 +480,13 @@
 
             checkboxes.forEach(function(checkbox) {
                 var productId = checkbox.closest('.product-item').getAttribute('data-product-id');
+                var productsize = checkbox.closest('.product-item').getAttribute('data-product-size');
                 var quantity = checkbox.closest('.product-item').querySelector('.item-quantity input').value;
                 
                 selectedProducts.push({
                     productId: productId,
-                    quantity: quantity
+                    quantity: quantity,
+                    size: productsize
                 });
             });
 
@@ -483,6 +508,7 @@
             })
             .then(function(data) {
                 var pattern = /^(?:\w+:)?\/\/([^\s.]+\.\S{2}|localhost[:?\d]*)\S*$/;
+                
                 if(pattern.test(data)) {
                     window.location.href = data;
                 }

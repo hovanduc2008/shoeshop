@@ -1,3 +1,12 @@
+@php 
+
+use Illuminate\Support\Facades\DB;
+
+$categories = DB::table('categories') -> where('deleted_at', null)-> where('status', '1') -> get();
+
+    
+@endphp 
+
 <header class="header">
     <div class="top-header layout-center">
         <div class="container">
@@ -6,26 +15,35 @@
                 <p><i class="fa-solid fa-envelope"></i><span>shoeshop@shop.vn</span></p>
             </div>
             <div class="right">
-                <a href=""><i class="fa-solid fa-unlock"></i>Đăng ký</a>
-                <a href=""><i class="fa-solid fa-right-to-bracket"></i>Đăng nhập</a>
+                @if(auth() -> guard('web') -> check())
+                <a href="{{route('handle-logout')}}"><i class="fa-regular fa-user"></i>{{auth() -> guard('web') -> user() -> name}}</a>
+                @else 
+                    <a href="{{route('register-form')}}"><i class="fa-solid fa-unlock"></i>Đăng ký</a>
+                    <a href="{{route('login-form')}}"><i class="fa-solid fa-right-to-bracket"></i>Đăng nhập</a>
+                @endif
             </div>
         </div>
     </div>
     <div class="bottom-header layout-center">
         <div class="container">
             <div class="search">
-                <div class="box">
+                <form action = "{{route('home-page')}}" class="box">
                     <div class="cate">
-                        <select name="" id="">
-                            <option value="null">Chọn danh mục</option>
+                        <select name="cate_id" id="">
+                            <option value="">Chọn danh mục</option>
+                            @if(count($categories) > 0)
+                                @foreach($categories as $cate)
+                                    <option value="{{$cate -> id}}">{{$cate -> title}}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="search-value">
-                        <input type="text">
+                        <input type="text" value = "{{request() -> search ?? ''}}" name = "search">
                         <p class="search_icon"><i class="fa-solid fa-magnifying-glass"></i></p>
                     </div>
                     
-                </div>
+                </form>
             </div>
             @include('partials.user.logo')
             <div class="hotline">

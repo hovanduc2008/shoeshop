@@ -122,9 +122,13 @@
         .invoice-footer {
             margin-top: 40px;
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             grid-gap: 7px;
             
+        }
+
+        .invoice-footer > div:nth-child(2) {
+            text-align: center;
         }
 
         .invoice-footer p {
@@ -165,9 +169,9 @@
                 </div>
                 <div class="right">
                     <h3>THANH TOÁN CHO:</h3>
-                    <p>Công ty TNCH Books Store</p>
-                    <p>langthang@booksstore.vn</p>
-                    <p>booksstore.vn</p>
+                    <p>Shoe Shop</p>
+                    <p>Trường Đại học Công Nghiệp Hà Nội</p>
+                    <p>shoeshop.vn</p>
                 </div>
             </div>
             <div class="invoice-product-list">
@@ -176,6 +180,7 @@
                     <thead>
                         <tr>
                             <th>Tên Sản Phẩm</th>
+                            <th>Size</th>
                             <th>Số lượng</th>
                             <th>Đơn giá</th>
                             <th>Thành tiền</th>
@@ -184,10 +189,11 @@
                     <tbody>
                         @foreach($order_details as $item)
                             <tr>
-                                <td>{{$item -> product -> title}}</td>
-                                <td>{{$item -> quantity}}</td>
-                                <td>{{number_format($item -> item_price)}} đ</td>
-                                <td>{{number_format($item -> item_price * $item -> quantity)}} đ</td>
+                                <td style = "padding-right: 4px;">{{$item -> product -> title}}</td>
+                                <td style = "padding-right: 4px;">{{$item -> size}}</td>
+                                <td style = "padding-right: 4px; text-align: right">{{$item -> quantity}}</td>
+                                <td style = "padding-right: 4px; text-align: right">{{number_format($item -> item_price)}} đ</td>
+                                <td style = "padding-right: 4px; text-align: right">{{number_format($item -> item_price * $item -> quantity)}} đ</td>
                             </tr>
                         @endforeach
                         
@@ -197,7 +203,7 @@
                             <th colspan = "3">
                                 TỔNG CỘNG
                             </th>
-                            <td>
+                            <td colspan = "2" style = "padding-right: 4px; text-align: right">
                                 {{number_format($order -> total_amount)}} đ
                             </td>
                         </tr>
@@ -207,17 +213,12 @@
         </div>
         <div class="invoice-footer">
             <div>
-                <p>Vui lòng email đến langthang@booksstore.vn nếu bạn có câu hỏi hoặc thắc mắc về hóa đơn.</p>
+                <p>Vui lòng email đến shoeshop@shop.vn nếu bạn có câu hỏi hoặc thắc mắc về hóa đơn.</p>
                 <p><strong><i>Cảm ơn sự ủng hộ của bạn!</i></strong></p>
             </div>
             <div>
-                <p>19001009</p>
-                <p>langthang@booksstore.vn</p>
-                <p>booksstore.vn</p>
-            </div>
-            <div>
-                <h4>Books Store</h4>
-                <p>009 Đường Bát Ngát, Thành phố Mênh Mông, Xứ sở Thần Tiên</p>
+                <h4>Shoe Shop</h4>
+                <p>Trường Đại học Công Nghiệp Hà Nội</p>
             </div>
         </div>
         @if($order -> payment_status == '1' )

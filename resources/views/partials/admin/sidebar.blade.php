@@ -57,10 +57,6 @@ l@php
                     "route" => route('admin.orders'),
                 ],
                 [
-                    "title" => "Tạo đơn hàng",
-                    "route" => '/'
-                ],
-                [
                     "title" => "Thống kê",
                     "route" => route('admin.statistics')
                 ],

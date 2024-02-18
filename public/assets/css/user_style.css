@@ -190,7 +190,7 @@ body {
     display: flex;
 }
 
-.nav .container .right .cart {
+.nav .container .right .cart_btn {
     background-color: rgb(226, 1, 1);
     min-width: 200px;
     height: 100%;
@@ -198,15 +198,15 @@ body {
     cursor: pointer;
 }
 
-.nav .container .right .cart i {
+.nav .container .right .cart_btn i {
     margin-right: 7px;
 }
 
-.nav .container .right .cart:hover {
+.nav .container .right .cart_btn:hover {
     opacity: 0.9;
 }
 
-.nav .container .right .cart span:nth-child(3) {
+.nav .container .right .cart_btn span:nth-child(3) {
     font-size: 1.5rem;
     background-color: red;
     padding: 7px 14px;
@@ -492,9 +492,19 @@ body {
     font-size: 1.4rem;
 }
 
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 
 .load-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
     position: absolute;
+    overflow: hidden;
     height: 100vh;
     width: 100%;
     background-color: #000;

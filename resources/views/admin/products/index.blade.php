@@ -96,11 +96,13 @@
                     <table id="datatable" class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Hình ảnh</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Số lượng</th>
-                                <th>Giá</th>
-                                <th>Action</th>
+                                <th style = "text-align: center">Hình ảnh</th>
+                                <th style = "text-align: center">Tên sản phẩm</th>
+                                <th style = "width: 20px;text-align: center">HOT</th>
+                                <th style = "width: 20px;text-align: center">Trạng thái</th>
+                                <th style = "width: 80px; text-align: center">Số lượng</th>
+                                <th style = "width: 120px; text-align: center">Giá</th>
+                                <th style = "width: 50px; text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,6 +114,20 @@
                                     <td>
                                         <h6 class="mt-0 m-b-5">{{$product -> title}}</h6>
                                         <p class="m-0 font-14" style = "max-width: 250px; overflow: hidden">{{$product -> description}}</p>
+                                    </td>
+                                    <td style = "width: 20px; text-align: center">
+                                        @if($product -> hot == '1')
+                                            <span style = "color: green"><b><i>true</i></b></span>
+                                        @else 
+                                            <span style = "color: red"><b><i>false</i></b></span>
+                                        @endif
+                                    </td>
+                                    <td style = "width: 20px; text-align: center">
+                                        @if($product -> status == '1')
+                                            <span style = "color: green"><b><i>hiện</i></b></span>
+                                        @else 
+                                            <span style = "color: red"><b><i>ẩn</i></b></span>
+                                        @endif
                                     </td>
                                     <td>{{number_format($product -> quantity)}}</td>
                                     <td>{{number_format($product -> price)}}đ</td>

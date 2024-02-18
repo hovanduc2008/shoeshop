@@ -11,7 +11,6 @@ use App\Models\User;
 use App\Repositories\Eloquent\OrderEloquentRepository;
 use App\Repositories\Eloquent\OrderDetailEloquentRepository;
 use App\Repositories\Eloquent\CustomerEloquentRepository;
-use App\Repositories\Eloquent\BorrowEloquentRepository;
 use App\Repositories\Eloquent\ProductEloquentRepository;
 
 use App\Models\OrderDetail;
@@ -21,19 +20,16 @@ class OrderController extends Controller
     protected $orderRepository;
     protected $orderDetailRepository;
     protected $customerRepository;
-    protected $borrowRepository;
 
     public function __construct(
         OrderEloquentRepository $orderRepository,
         OrderDetailEloquentRepository $orderDetailRepository,
         CustomerEloquentRepository $customerRepository,
-        BorrowEloquentRepository $borrowRepository,
         ProductEloquentRepository $productRepository
         ) {
         $this -> orderRepository = $orderRepository;
         $this -> orderDetailRepository = $orderDetailRepository;
         $this -> customerRepository = $customerRepository;
-        $this -> borrowRepository = $borrowRepository;
         $this -> productRepository = $productRepository;
     }
 
@@ -70,48 +66,7 @@ class OrderController extends Controller
     }
 
     // Thống kê
-    public function statistics(Request $request) {
-        $countCustomer = $this -> customerRepository -> countWhere(['is_admin' => '0'], ['id']);
-        $countOrder = $this -> orderRepository -> countWhere([], ['id']);
-        $countBorrow = $this -> borrowRepository -> countWhere([], ['id']);
-        $topProducts = $this -> productRepository -> topProducts();
-        $topCustomerBorrows = $this -> customerRepository -> topCustomerBorrows();
-        $topLateReturners = $this -> customerRepository -> topLateReturners();
-
-
-        // Biểu đồ khách hàng mượn nhiều nhất
-        $chartCustomer = new SampleChart;
-        $customerNames = $topCustomerBorrows->pluck('name')->toArray();
-        $borrowCounts = $topCustomerBorrows->pluck('borrow_count')->toArray();
-        $chartCustomer->labels($customerNames);
-        $chartCustomer->dataset('Lượt mượn', 'bar', $borrowCounts);
-
-
-        // Biểu đồ khách hàng trả muộn nhiều nhất
-        $chartCustomerLate = new SampleChart;
-        $customerNames = $topLateReturners->pluck('name')->toArray();
-        $borrowCounts = $topLateReturners->pluck('late_count')->toArray();
-        $chartCustomerLate->labels($customerNames);
-        $chartCustomerLate->dataset('Lần muộn', 'bar', $borrowCounts);
-
-        
-        // Biểu đồ sản phẩm có lượt mượn nhiều nhất
-        $chartProduct = new SampleChart;
-        $customerNames = $topProducts->pluck('title')->toArray();
-        $borrowCounts = $topProducts->pluck('borrow_count')->toArray();
-        $chartProduct->labels($customerNames);
-        $chartProduct->dataset('Lượt mượn', 'bar', $borrowCounts);
-        
-
-        return view('admin.orders.statistics', 
-        compact('countCustomer', 
-        'countOrder', 'chartCustomer', 'chartProduct', 'chartCustomerLate',
-        'countBorrow',
-        ));
-    }
-
-    public function CustomerStatistics() {
-
+    public function statistics(Request $request) {        
     }
 
 }

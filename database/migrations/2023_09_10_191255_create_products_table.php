@@ -23,12 +23,13 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id'); 
             $table->bigInteger('price');
             $table->bigInteger('quantity');
+            $table->bigInteger('discount');
             $table->text('description') -> nullable();
             $table->text('content') -> nullable();
             $table->string('meta_title') -> nullable();
             $table->text('meta_description') -> nullable();
             $table->enum('status', [0, 1]) -> default(1);
-            $table->enum('hot', [0, 1]) -> default(1);
+            $table->enum('hot', [0, 1]) -> default(0);
             $table->softDeletes();
             $table->timestamps();
 

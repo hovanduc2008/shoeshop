@@ -73,7 +73,12 @@
                                             <label for="content">Content</label>
                                             <textarea class="form-control" name = "content" id="content" rows="5"></textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="discount">Giảm giá (%)</label>
+                                            <input type="number" name = "discount" min = "0" max = "100">
+                                        </div>
                                     </div>
+
                                 </div>
 
                                 <div class="card mb-3">

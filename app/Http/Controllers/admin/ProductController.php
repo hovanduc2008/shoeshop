@@ -67,7 +67,8 @@ class ProductController extends Controller
                 'added_by' => auth('web') -> id(),
                 'slug' => Str::slug($request -> title),
                 'category_id' => $request -> category,
-                'author_id' => $request -> author
+                'author_id' => $request -> author,
+                'discount' => $request -> discount ?? 0
             ]
         ) -> all();
 
@@ -101,6 +102,9 @@ class ProductController extends Controller
             'slug' => Str::slug($request -> title),
             'author_id' => $request -> author,
             'category_id' => $request -> category,
+            'status' => !empty($request -> status) ? '1' : '0',
+            'hot' => !empty($request -> hot) ? '1' : '0',
+            'discount' => $request -> discount
         ]);
 
         $hasFileImage = $request -> hasFile('upload_image');
@@ -119,6 +123,8 @@ class ProductController extends Controller
                 'image' => '',
             ]);
         }
+
+
 
         $this -> productRepository ->update($request -> all(), $foundProduct -> id);
 

@@ -17,8 +17,11 @@ class CreateOrdersTable extends Migration
             $table -> id();
             $table -> unsignedBigInteger('user_id');
             $table -> string('order_title') -> nulable();
-            $table -> string('shipping_address') ;
-            $table -> bigInteger('total_amount') ;
+            $table -> string('shipping_address');
+            $table -> string('email');
+            $table -> string('phone_number');
+            $table -> string('full_name');
+            $table -> bigInteger('total_amount');
             $table -> string('payment_method') -> nulable();
             $table -> enum('payment_status', [0, 1]) -> default(0) -> nulable();
             $table -> enum('order_status', [0, 1, 2]) -> default(0) -> nulable();

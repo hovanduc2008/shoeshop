@@ -4,11 +4,6 @@
 @php
     $page_title = "Quản lý đầu sách";
     $sub_page_title = "Sửa thông tin Sách";
-
-    $types = [
-        "0" => "Sách bán",
-        "1" => "Sách cho mượn"
-    ];
 @endphp
 
 @section('main')
@@ -24,15 +19,11 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="ISBN">Mã sách</label>
+                                    <label for="ISBN">Mã sản phẩm</label>
                                     <input type="text" disabled value = "{{$foundProduct -> id}}" class="form-control" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="ISBN">ISBN</label>
-                                    <input id="ISBN" name="ISBN" type="text" value = "{{$foundProduct -> ISBN}}" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="title">Tên sách</label>
+                                    <label for="title">Tên sản phẩm</label>
                                     <input id="title" name="title" type="text" value = "{{$foundProduct -> title}}" class="form-control" required>
                                 </div>
                                 
@@ -52,30 +43,14 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="publication_date">Ngày xuất bản</label>
-                                    <input id="publication_date" name="publication_date" value = "{{$foundProduct -> publication_date}}" type="date" class="form-control">
+                                    <label for="price">Giá bán</label>
+                                    <input id="price" name="price" type="text" value = "{{($foundProduct -> price)}}" class="form-control"required >
                                 </div>
                                 <div class="form-group">
                                     <label for="quantity">Số lượng</label>
                                     <input id="quantity" name="quantity" type="text" value = "{{($foundProduct -> quantity)}}" class="form-control" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="price">Giá bán/ Giá cho mượn</label>
-                                    <input id="price" name="price" type="text" value = "{{($foundProduct -> price)}}" class="form-control"required >
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Tác giả</label>
-                                    <select class="form-control select2" name = "author" required>
-                                        @foreach($authors as $author)
-                                            @if($author -> id == $foundProduct -> author_id)
-                                                <option selected value="{{ $author->id }}">{{ $author->name }}</option>
-                                            @else
-                                                <option value="{{ $author->id }}">{{ $author->name }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label class="control-label">Danh mục</label>
                                     <select class="form-control select2" name = "category" required>
@@ -90,19 +65,35 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label">Loại</label>
-                                    <select class="form-control select2" name = "type" required>
-                                        @foreach($types as $key => $type) 
-
-                                            @if($key == $foundProduct -> type)
-                                                
-                                                <option selected value="{{$key}}">{{$type}}</option>
-                                            @else
-                                                <option value="{{$key}}">{{$type}}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                                    <label for="discount">Giảm giá (%)</label>
+                                    <input type="number" value = "{{$foundProduct -> discount}}"  name = "discount" min = "0" class="form-control" max = "100">
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="status">Trạng thái: &nbsp;</label>
+                                    
+                                    @if($foundProduct -> status == '1')
+                                        <input type="checkbox" checked name = "status">
+                                    @else 
+                                        <input type="checkbox" name = "status">
+                                    @endif 
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="hot">Sản phẩm hot: &nbsp;</label>
+                                    @if($foundProduct -> hot == '1')
+                                        <input type="checkbox" checked name = "hot">
+                                    @else 
+                                        <input type="checkbox" name = "hot">
+                                    @endif 
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea class="form-control" name = "content" id="content" rows="5">{{$foundProduct -> content}}</textarea>
+                                </div>
+
+                            
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -116,10 +107,7 @@
                         <div class="row">
                             
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="content">Content</label>
-                                    <textarea class="form-control" name = "content" id="content" rows="5">{{$foundProduct -> content}}</textarea>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="card mb-3">

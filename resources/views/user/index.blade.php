@@ -44,6 +44,7 @@
 
         .product-list .item img {
             width: 100%;
+            height:200px;
         }
 
         .title {
@@ -86,78 +87,27 @@
             <h3>DANH SÁCH SẢN PHẨM</h3>
         </div>
         <div class="product-list">
-            <a href='' class="item">
-                <div class="img">
-                    <img src="https://ananas.vn/wp-content/uploads/Pro_AV00098_1.jpg" alt="">
-                </div>
-                <div class="info">
-                    <p class="name">BASAS BUMPER GUM EXT NE - LOW TOP - BLACK/GUM</p>
-                    <p class="price">
-                        <span>13.000đ</span>
-                        <span>13.000đ</span>
-                    </p>
-                </div>
-            </a>
-            <a href='' class="item">
-                <div class="img">
-                    <img src="https://supersports.com.vn/cdn/shop/products/M9160C-1_900x.jpg?v=1700124581" alt="">
-                </div>
-                <div class="info">
-                    <p class="name">Giày Thời Trang Unisex Converse Chuck Taylor All Star - Đen</p>
-                    <p class="price">
-                        <span>13.000đ</span>
-                        <span>13.000đ</span>
-                    </p>
-                </div>
-            </a>
-            <a href='' class="item">
-                <div class="img">
-                    <img src="https://supersports.com.vn/cdn/shop/products/M9160C-2_1769ee94-2d11-4094-bdda-6c4738f437d3_900x.jpg?v=1668400591" alt="">
-                </div>
-                <div class="info">
-                    <p class="name">Giày cao gót</p>
-                    <p class="price">
-                        <span>13.000đ</span>
-                        <span>13.000đ</span>
-                    </p>
-                </div>
-            </a>
-            <a href='' class="item">
-                <div class="img">
-                    <img src="https://supersports.com.vn/cdn/shop/products/M9160C-2_1769ee94-2d11-4094-bdda-6c4738f437d3_900x.jpg?v=1668400591" alt="">
-                </div>
-                <div class="info">
-                    <p class="name">Giày cao gót</p>
-                    <p class="price">
-                        <span>13.000đ</span>
-                        <span>13.000đ</span>
-                    </p>
-                </div>
-            </a>
-            <a href='' class="item">
-                <div class="img">
-                    <img src="https://supersports.com.vn/cdn/shop/products/M9160C-2_1769ee94-2d11-4094-bdda-6c4738f437d3_900x.jpg?v=1668400591" alt="">
-                </div>
-                <div class="info">
-                    <p class="name">Giày cao gót</p>
-                    <p class="price">
-                        <span>13.000đ</span>
-                        <span>13.000đ</span>
-                    </p>
-                </div>
-            </a>
-            <a href='' class="item">
-                <div class="img">
-                    <img src="https://supersports.com.vn/cdn/shop/products/M9160C-2_1769ee94-2d11-4094-bdda-6c4738f437d3_900x.jpg?v=1668400591" alt="">
-                </div>
-                <div class="info">
-                    <p class="name">Giày cao gót</p>
-                    <p class="price">
-                        <span>13.000đ</span>
-                        <span>13.000đ</span>
-                    </p>
-                </div>
-            </a>
+
+            @foreach($products as $product)
+                <a href="{{ route('product_detail', ['slug' => $product->slug]) }}" class="item">
+                    <div class="img">
+                        <img src="{{$product -> image}}" alt="">
+                    </div>
+                    <div class="info">
+                        <p class="name">{{$product -> title}}</p>
+                        <p class="price">
+                            
+                            @if(!empty($product -> discount)) 
+                                <span>{{number_format($product -> price)}}đ</span>
+                                <span>{{number_format($product -> price - $product -> price * $product -> discount / 100)}}đ</span>
+                            @else 
+                                <span></span>
+                                <span>{{number_format($product -> price)}}đ</span>
+                            @endif
+                        </p>
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
 @endsection

@@ -16,6 +16,7 @@ class OrderDetail extends Model
         'addby_id',
         'product_id',
         'order_id',
+        'size',
         'quantity',
         'item_price'
     ];
