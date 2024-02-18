@@ -50,8 +50,13 @@
                         </div>
                         <div class="info">
                             <p>{{$product->title}}</p>
-                            <p>GIẢM GIÁ 499.000Đ</p>
-                            <p>GIÁ GỐC: 599.000Đ</p>
+                            @if(!empty($product -> discount))
+                                <p>GIẢM GIÁ CÒN {{number_format($product -> price - $product -> price * $product -> discount / 100)}}Đ</p>
+                                <p>GIÁ GỐC: {{number_format($product -> price)}}Đ</p>
+                            @else 
+                                <p>GIÁ CHỈ {{number_format($product -> price)}}Đ</p>
+                                <p></p>
+                            @endif 
                         </div>
                     </a>
                 @endforeach
@@ -72,8 +77,13 @@
                         </div>
                         <div class="info">
                             <p>{{$product->title}}</p>
-                            <p>GIẢM GIÁ 499.000Đ</p>
-                            <p>GIÁ GỐC: 599.000Đ</p>
+                            @if(!empty($product -> discount))
+                                <p>GIẢM GIÁ CÒN {{number_format($product -> price - $product -> price * $product -> discount / 100)}}Đ</p>
+                                <p>GIÁ GỐC: {{number_format($product -> price)}}Đ</p>
+                            @else 
+                                <p>GIÁ CHỈ {{number_format($product -> price)}}Đ</p>
+                                <p></p>
+                            @endif 
                         </div>
                     </a>
                 @endforeach
@@ -94,8 +104,13 @@
                         </div>
                         <div class="info">
                             <p>{{$product->title}}</p>
-                            <p>GIẢM GIÁ 499.000Đ</p>
-                            <p>GIÁ GỐC: 599.000Đ</p>
+                            @if(!empty($product -> discount))
+                                <p>GIẢM GIÁ CÒN {{number_format($product -> price - $product -> price * $product -> discount / 100)}}Đ</p>
+                                <p>GIÁ GỐC: {{number_format($product -> price)}}Đ</p>
+                            @else 
+                                <p>GIÁ CHỈ {{number_format($product -> price)}}Đ</p>
+                                <p></p>
+                            @endif 
                         </div>
                     </a>
                 @endforeach

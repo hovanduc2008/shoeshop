@@ -99,10 +99,10 @@
                             
                             @if(!empty($product -> discount)) 
                                 <span>{{number_format($product -> price)}}đ</span>
-                                <span>{{number_format($product -> price - $product -> price * $product -> discount / 100)}}đ</span>
+                                <span>{{number_format($product -> price - $product -> price * $product -> discount / 100) > 0 ? number_format($product -> price - $product -> price * $product -> discount / 100).'đ' : 'Miễn phí'}}</span>
                             @else 
                                 <span></span>
-                                <span>{{number_format($product -> price)}}đ</span>
+                                <span>{{number_format($product -> price) > 0 ? number_format($product -> price) : 'Miễn phí'}}đ</span>
                             @endif
                         </p>
                     </div>

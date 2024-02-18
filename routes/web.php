@@ -155,9 +155,11 @@ Route::prefix('/') -> group(function() {
     Route::get('login', [UserAuthController::class, 'login']) -> name('login-form');
     Route::get('register', [UserAuthController::class, 'register']) -> name('register-form');
     Route::get('product/{slug}', [UserProductController::class, 'detail']) -> name('product_detail');
+    Route::get('product/set-favourite/{slug}', [UserProductController::class, 'setFavourite']) -> name('product_favourite');
     Route::post('handle-register', [UserAuthController::class, 'handleRegister']) -> name('handle-register');
     Route::post('handle-login', [UserAuthController::class, 'handleLogin']) -> name('handle-login');
     Route::get('handle-logout', [UserAuthController::class, 'handleLogout']) -> name('handle-logout');
+    Route::post('handle-review', [UserProductController::class, 'handleReview']) -> name('handle-review');
 
     // Route::get('search', [UserSearchController::class, 'index']) -> name('search');
     // Route::get('auth', [UserAuthController::class, 'index']) -> name('auth');

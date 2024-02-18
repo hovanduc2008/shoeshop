@@ -149,12 +149,6 @@
                         </tr>
                         <tr>
                             <td>Người Thủy Thủ Già Trên Hòn Đảo Lưu Đày</td>
-                            <td>10</Here's the continuation of the modified HTML code:
-
-```html
-                        </tr>
-                        <tr>
-                            <td>Người Thủy Thủ Già Trên Hòn Đảo Lưu Đày</td>
                             <td>10</td>
                             <td>100000 đ</td>
                             <td>1000000 đ</td>

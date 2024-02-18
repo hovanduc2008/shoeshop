@@ -33,7 +33,11 @@ $categories = DB::table('categories') -> where('deleted_at', null)-> where('stat
                             <option value="">Chọn danh mục</option>
                             @if(count($categories) > 0)
                                 @foreach($categories as $cate)
-                                    <option value="{{$cate -> id}}">{{$cate -> title}}</option>
+                                    @if(request() -> cate_id == $cate->id)
+                                        <option selected value="{{$cate -> id}}">{{$cate -> title}}</option>
+                                    @else 
+                                        <option value="{{$cate -> id}}">{{$cate -> title}}</option>
+                                    @endif 
                                 @endforeach
                             @endif
                         </select>
