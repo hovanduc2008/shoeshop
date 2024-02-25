@@ -23,7 +23,10 @@ class Order extends Model
         'successfully_delivery_at',
         'shipping_address',
         'total_order_value',
-        'order_status'
+        'order_status',
+        'email',
+        'phone_number',
+        'full_name'
     ];
 
     public function orderDetails()

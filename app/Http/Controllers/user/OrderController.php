@@ -74,7 +74,7 @@ class OrderController extends Controller
 
     public function submitOrder(Request $request) {
         $validator = $request->validate([
-            'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'phone_number' => 'required|string|max:255',
         ]);
@@ -104,9 +104,7 @@ class OrderController extends Controller
             'payment_method' => $request -> pay_method,
             'order_code' => '',
             'order_title' => 'Order Details'
-        ]);
-
-        //dd($request -> all());
+        ]);       
 
         $order = $this -> orderRepository -> create($request -> all());
         $orderId = $order->id;
@@ -127,7 +125,12 @@ class OrderController extends Controller
             }
         }
 
-        Mail::to(auth() -> guard('web') -> user() -> email)->send(new OrderNotiMail());
+        $user = auth() -> guard('web') -> user();
+
+        $order = $this -> orderRepository -> findById($orderId);
+        $order_details = $this -> orderDetailRepository -> findWhere(['order_id' => $orderId]);
+
+        Mail::to(auth() -> guard('web') -> user() -> email)->send(new OrderNotiMail($user,$order_details,$totalPrice, $order));
         
         if($request -> pay_method == '2') 
             return redirect() -> route('createpayment')

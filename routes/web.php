@@ -193,8 +193,8 @@ Route::prefix('/') -> group(function() {
     Route::post('submit-order', [UserOrderController::class, 'submitOrder']) -> name('submitOrder');
     Route::get('order-detail/{id}', [UserOrderController::class, 'orderDetail']) -> name('orderDetail');
 
-    // Route::get('createpayment', [VNPayController::class, 'createPayment']) -> name('createpayment');
-    // Route::get('vnp_return', [VNPayController::class, 'Returnurl']) -> name('vnp_return');
+    Route::get('createpayment', [VNPayController::class, 'createPayment']) -> name('createpayment');
+    Route::get('vnp_return', [VNPayController::class, 'Returnurl']) -> name('vnp_return');
 });
 
 Route::get('password/reset/{token}', [UserAuthController::class, 'handleResetPassword']) -> name('reset-password');

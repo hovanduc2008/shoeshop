@@ -43,6 +43,14 @@ class ProductController extends Controller
         $reviews = Review::where('product_id', $foundProduct -> id) 
                 ->get();
 
+        $total_star = 0;
+
+        foreach($reviews as $review) {
+            $total_star += $review->rating;
+        }
+
+        $star_avg = count($reviews) > 0 ? round($total_star / count($reviews)) : 0;
+
         if(auth() -> guard('web') -> check())
         $reviewself = Review::where('product_id', $foundProduct -> id) 
                 -> where('user_id', auth() -> guard('web') -> user() -> id)
@@ -51,7 +59,7 @@ class ProductController extends Controller
         $reviewself = null;
 
 
-        return view('user.product-detail', compact('foundProduct', 'reviews', 'reviewself'));
+        return view('user.product-detail', compact('foundProduct', 'reviews', 'reviewself', 'star_avg'));
     }
 
     public function handleReview(Request $request) {
@@ -59,7 +67,7 @@ class ProductController extends Controller
             DB::table('reviews')
             ->where('id', $request->id)
             ->update([
-                'rating' => $request->rating ?? '4',
+                'rating' => $request->star ?? '4',
                 'review_title' => $request->review_title ?? 'Tốt',
                 'review_content' => $request->review_content ?? '',
                 'created_at' => date('Y-m-d H:i')

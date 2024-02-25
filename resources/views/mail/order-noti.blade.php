@@ -271,7 +271,7 @@
         }
         
         .invoice-footer div {
-            width: 30%;
+            width: 33%;
         }
         
         .invoice-footer h4 {
@@ -283,7 +283,7 @@
     <div class="invoice-main">
         <div class="invoice-header">
             <div class="logo">
-                Books Store
+                Shoe Shop
             </div>
             <div class="invoice-title">
                 <h3>HÓA ĐƠN</h3>
@@ -294,15 +294,15 @@
             <div class="invoice-info">
                 <div class="left">
                     <h3>HÓA ĐƠN CHO:</h3>
-                    <p>Họ tên: Nguyễn Văn Nam</p>
-                    <p>Điện thoại: 087654311</p>
-                    <p>Email: 0876543234567</p>
+                    <p>Họ tên: {{$order -> full_name}}</p>
+                    <p>Điện thoại: {{$order -> phone_number}}</p>
+                    <p>Email: {{$order -> email}}</p>
                 </div>
                 <div class="right">
                     <h3>THANH TOÁN CHO:</h3>
-                    <p>Công ty TNCH Books Store</p>
-                    <p>langthang@booksstore.vn</p>
-                    <p>booksstore.vn</p>
+                    <p>Công ty TNCH Shoe Shop</p>
+                    <p>langthang@shoeshop.vn</p>
+                    <p>shoeshop.vn</p>
                 </div>
             </div>
             <div class="invoice-product-list">
@@ -317,30 +317,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Người Thủy Thủ Già Trên Hòn Đảo Lưu Đày</td>
-                            <td>10</td>
-                            <td>100000 đ</td>
-                            <td>1000000 đ</td>
-                        </tr>
-                        <tr>
-                            <td>Người Thủy Thủ Già Trên Hòn Đảo Lưu Đày</td>
-                            <td>10</td>
-                            <td>100000 đ</td>
-                            <td>1000000 đ</td>
-                        </tr>
-                       
-                        <tr>
-                            <td>Người Thủy Thủ Già Trên Hòn Đảo Lưu Đày</td>
-                            <td>10</td>
-                            <td>100000 đ</td>
-                            <td>1000000 đ</td>
-                        </tr>
+                        @foreach($order_list as $item)
+                            <tr>
+                                <td>[{{$item -> size}}] {{$item -> product -> title}}</td>
+                                <td>{{$item -> quantity}}</td>
+                                <td>{{number_format($item -> item_price)}} đ</td>
+                                <td>{{number_format($item -> item_price * $item -> quantity)}} đ</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
                             <th colspan="3">TỔNG CỘNG</th>
-                            <td>1000000 đ</td>
+                            <td>{{number_format($total_amount)}} đ</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -348,13 +337,13 @@
         </div>
         <div class="invoice-footer">
             <div>
-                <p>Vui lòng email đến langthang@booksstore.vn nếu bạn có câu hỏi hoặc thắc mắc về hóa đơn.</p>
+                <p>Vui lòng email đến langthang@shoeshop.vn nếu bạn có câu hỏi hoặc thắc mắc về hóa đơn.</p>
                 <p><strong><i>Cảm ơn sự ủng hộ của bạn!</i></strong></p>
             </div>
             <div>
                 <p>19001009</p>
-                <p>langthang@booksstore.vn</p>
-                <p>booksstore.vn</p>
+                <p>langthang@shoeshop.vn</p>
+                <p>shoeshop.vn</p>
             </div>
             <div>
                 <h4>Books Store</h4>

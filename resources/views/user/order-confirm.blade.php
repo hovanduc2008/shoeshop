@@ -413,8 +413,8 @@
                             <h4>Thông tin giao hàng</h4>
                             <div class="info-payment">
                                 <div class="box">
-                                    <label for="name">Họ, tên người nhận</label>
-                                    <input required id = "name" name = "name" value = "{{Auth::guard('web') -> user() -> name}}" type="text">
+                                    <label for="full_name">Họ, tên người nhận</label>
+                                    <input required id = "name" name = "full_name" value = "{{Auth::guard('web') -> user() -> name}}" type="text">
                                 </div>
                                 <div class="box">
                                     <label for="shipping_address">Địa chỉ nhận hàng</label>

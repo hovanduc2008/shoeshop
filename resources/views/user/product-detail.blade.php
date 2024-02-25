@@ -329,17 +329,20 @@
                     <div class="statist">
                         <div class="common">
                             <div class = "star">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $star_avg)
+                                        <i class="active fa-solid fa-star"></i>
+                                    @else 
+                                        <i class="fa-solid fa-star"></i>
+                                    @endif
+                                @endfor
                             </div>
                             <p>({{count($reviews)}} Đánh giá)</p>
                         </div>
                         <form method = "POST" action = "{{route('handle-review')}}" class="reviewself">
                             @method('POST') 
                             @csrf
+                            
                             <input type="hidden" name="product_id" value = "{{$foundProduct -> id}}">
                             @if(auth() -> guard('web') -> check())
                                 <h3>Đánh giá của bạn</h3>
@@ -350,19 +353,20 @@
                                     @endphp 
                                     @for($i = 1; $i <= 5; $i++)
                                         @if($i <= $rating)
-                                        <i class="active fa-solid fa-star"></i>
+                                        <i class="active fa-solid fa-star" onclick="changeStar(this)"></i>
                                         @else 
-                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star" onclick="changeStar(this)"></i>
                                         @endif
                                     @endfor
                                 </div>
                                 <input type="hidden" name="id" value = "{{$reviewself -> id ?? ''}}">
                                 <input type="text" name = "review_title" placeholder="VD: Sản phẩm tốt..." value = "{{$reviewself -> review_title ?? ''}}"/>
                                 <textarea rows="4" style = "margin-top: 4px; width: 100%; padding: 0 5px" name = "review_content"> {{$reviewself -> review_content ?? ''}}</textarea>
+                                <input type="hidden" name = "star" class = "star_num" value = "{{$rating}}">
                                 <button type= "submit">Gửi</button>
                             @else
                             @endif 
-                        </div>
+                        </form>
                         <div>
                             @if(count($reviews) > 0)
                                 @foreach($reviews as $review)
@@ -408,11 +412,22 @@
 
 @section('scripts')
     <script>
+        const reviewselfs = $$('.reviewself .star i');
+        
+        function changeStar(e) {
+            const star = [...reviewselfs].indexOf(e) + 1 || 5;
+            for (var i = 0; i < reviewselfs.length; i++) { 
+                reviewselfs[i].classList.remove('active');
+                if (i < star) reviewselfs[i].classList.add('active'); 
+            }
+            console.log($('.reviewself .star_num'));
+            $('.reviewself .star_num').value = star;
+        }
 
         function handleChangeHash() {
             var newHash = window.location.hash;
-            var controls = $$('.bottom .control > p'); // Sử dụng $ thay vì $$
-            var contents = $$('.bottom .content'); // Sử dụng $ thay vì $$
+            var controls = $$('.bottom .control > p'); 
+            var contents = $$('.bottom .content');
             
             controls.forEach(function(control) {
                 control.classList.remove('active');
