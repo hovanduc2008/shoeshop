@@ -226,6 +226,124 @@
             color: #FFAE42;
         }
 
+        .suggest_list {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            margin-right: 20px;
+            grid-gap: 5px;
+            margin-top: 8px;
+            
+        }
+
+        .suggest_item {
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #111;
+            border-radius: 5px;
+        }
+
+        .suggest_item p {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Số dòng giới hạn */
+            -webkit-box-orient: vertical;
+            margin-top: 5px;
+        }
+        .suggest_list img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .suggest_item:hover img {
+            transform:  rotate(-20deg);
+            scale: 1.1;
+        }
+
+        .success_add {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            box-shadow: 0 0 5px #111;
+            z-index: 10;
+            border-radius: 8px;
+            transform: translateX(-50%) !important;
+            width: 500px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 0 20px;
+            color: green;
+            background: #fff;
+            transition: all 0.2s ease-in-out; 
+        }
+
+        .success_add_header {
+            height: 50px;
+            width: 100%;
+            position: relative;
+        }
+
+        .success_add_header div {
+            height: 60px;
+            width: 60px;
+            background: #6FD649;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .success_add_body {
+            color: #111;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .success_add_body h3 {
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        .success_add_body p {
+            margin-top: 7px;
+        }
+
+        .closeAdd {
+            width: 100%;
+            height: 40px;
+            margin-top: 100px;
+            border: none;
+            font-weight: 500;
+            background: #6FD649;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .closeAdd:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .success_close {
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
         
     </style>
 @endsection
@@ -252,6 +370,18 @@
 @section('main')
     @if(!empty($foundProduct))
         <div class="product-detail">
+            @if(!empty(session('success'))) 
+                <div class = "success_add">
+                    <div class = "success_add_header">
+                        <div><i class="fa-solid fa-check"></i></div>
+                    </div>
+                    <div class = "success_add_body">
+                        <h3>THÀNH CÔNG</h3>
+                        <p>Thêm sản phẩm vào giỏ hàng thành công!</p>
+                        <button class = "closeAdd">OK</button>
+                    </div>
+                </div>
+            @endif
             <div class="top">
                 <div class="left">
                     <div class="img">
@@ -297,6 +427,20 @@
                     </button>
                 </form>
             </div>
+            @if(!empty($suggestProducts))
+                <div>
+                    <h3>Có thể bạn quan tâm</h3>
+                    <div class="suggest_list">
+                        @foreach($suggestProducts as $item)
+                            <a href="{{ route('product_detail', ['slug' => $item->slug]) }}" class="suggest_item">
+                                <img src="{{$item -> image}}" alt="">
+                                <p>{{$item -> title}}</p>
+                            </a>
+                            
+                        @endforeach
+                    </div>
+                </div>
+            @endif
             <div class="bottom">
                 <div class="control">
                     <p class = "active"><a href="#description">Mô tả sản phẩm</a></p>
@@ -367,6 +511,7 @@
                             @else
                             @endif 
                         </form>
+                        
                         <div>
                             @if(count($reviews) > 0)
                                 @foreach($reviews as $review)

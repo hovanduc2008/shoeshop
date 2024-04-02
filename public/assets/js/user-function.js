@@ -29,3 +29,25 @@ const progressInterval = setInterval(() => {
 const open_href = function (href) {
     window.location.replace(href.toString());
 }
+
+const handleLogOutBtn = () => {
+    
+    if(!$('.logOutBtn_Active')) {
+        
+        $('.logOutBtn').classList.add('logOutBtn_Active');
+        const down = setInterval(function () {
+            
+            $('.logOutBtn_Active').classList.remove('logOutBtn_Active')
+            clearInterval(down);
+    }, 3000); 
+    }
+    else  $('.logOutBtn_Active').classList.remove('logOutBtn_Active');
+}
+
+$('.userBtn').addEventListener('click',handleLogOutBtn);
+
+function closeBtnSuccess() {
+    $('.success_add').classList.add('success_close');
+}
+
+$('.closeAdd').addEventListener('click',closeBtnSuccess);

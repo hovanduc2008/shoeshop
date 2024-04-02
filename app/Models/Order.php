@@ -21,12 +21,16 @@ class Order extends Model
         'order_code',
         'order_note',
         'successfully_delivery_at',
+        'province',
+        'district',
+        'commune',
         'shipping_address',
         'total_order_value',
         'order_status',
         'email',
         'phone_number',
-        'full_name'
+        'full_name',
+        'vnp_TransactionStatus'
     ];
 
     public function orderDetails()

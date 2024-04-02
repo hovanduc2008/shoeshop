@@ -149,7 +149,8 @@ Route::prefix('/admin') -> group(function() {
 // User Route
 
 Route::prefix('/') -> group(function() {
-    Route::get('/', [UserHomeController::class, 'index']) -> name('home-page');
+    Route::get('/', [UserHomeController::class, 'landing']) -> name('landing-page');
+    Route::get('/product', [UserHomeController::class, 'index']) -> name('home-page');
     Route::get('article', [UserArticleController::class, 'index']) -> name('article');
     Route::get('article/{slug}', [UserArticleController::class, 'detail']) -> name('article-detail');
     Route::get('login', [UserAuthController::class, 'login']) -> name('login-form');

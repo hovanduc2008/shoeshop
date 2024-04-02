@@ -16,7 +16,8 @@ $categories = DB::table('categories') -> where('deleted_at', null)-> where('stat
             </div>
             <div class="right">
                 @if(auth() -> guard('web') -> check())
-                <a href="{{route('handle-logout')}}"><i class="fa-regular fa-user"></i>{{auth() -> guard('web') -> user() -> name}}</a>
+                <a style = "background: #F46A64; color: #fff" class = 'logOutBtn' href="{{route('handle-logout')}}"><i class="fa-regular fa-user"></i>Đăng xuất</a>
+                <a class = 'userBtn' href="#"><i class="fa-regular fa-user"></i>{{auth() -> guard('web') -> user() -> name}}</a>
                 @else 
                     <a href="{{route('register-form')}}"><i class="fa-solid fa-unlock"></i>Đăng ký</a>
                     <a href="{{route('login-form')}}"><i class="fa-solid fa-right-to-bracket"></i>Đăng nhập</a>
@@ -30,7 +31,7 @@ $categories = DB::table('categories') -> where('deleted_at', null)-> where('stat
                 <form action = "{{route('home-page')}}" class="box">
                     <div class="cate">
                         <select name="cate_id" id="">
-                            <option value="">Chọn danh mục</option>
+                            <option value="">Danh mục</option>
                             @if(count($categories) > 0)
                                 @foreach($categories as $cate)
                                     @if(request() -> cate_id == $cate->id)
@@ -43,7 +44,7 @@ $categories = DB::table('categories') -> where('deleted_at', null)-> where('stat
                         </select>
                     </div>
                     <div class="search-value">
-                        <input type="text" value = "{{request() -> search ?? ''}}" name = "search">
+                        <input placeholder = "Tìm kiếm..." type="text" value = "{{request() -> search ?? ''}}" name = "search">
                         <p class="search_icon"><i class="fa-solid fa-magnifying-glass"></i></p>
                     </div>
                     

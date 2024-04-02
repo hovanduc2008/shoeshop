@@ -221,7 +221,9 @@
                 <p>Trường Đại học Công Nghiệp Hà Nội</p>
             </div>
         </div>
-        @if($order -> payment_status == '1' )
+        @if(($order -> payment_status == '1' && $order -> payment_method == '1') || 
+            ($order -> payment_status == '1' && $order -> payment_method == '2') && $order -> vnp_TransactionStatus == '00'
+        )
             <div class = "paid">
                 <img src="{{asset('assets/images/iloveyou.png')}}" alt="">
             </div>

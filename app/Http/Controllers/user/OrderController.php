@@ -45,6 +45,13 @@ class OrderController extends Controller
         return view('user.order-detail', compact('orderInfo', 'products'));
     }
 
+    public function splitStringByDash($inputString) {
+        // Sử dụng hàm explode để tách chuỗi thành một mảng các phần tử
+        // Dấu "-" là tham số thứ nhất để tách chuỗi
+        $resultArray = explode("-", $inputString);
+        return $resultArray;
+    }
+
     public function createOrder(Request $request) {
         if(!(auth() -> guard('web') -> check())) return redirect(route('cart'));
         $cart = session() -> get('cart');
@@ -105,6 +112,13 @@ class OrderController extends Controller
             'order_code' => '',
             'order_title' => 'Order Details'
         ]);       
+
+        $request -> merge(
+            ['shipping_address' => $request -> shipping_address.
+            ', '.$request -> commune.
+            ', '.$request -> district.
+            ', '.$request -> province]
+        );
 
         $order = $this -> orderRepository -> create($request -> all());
         $orderId = $order->id;

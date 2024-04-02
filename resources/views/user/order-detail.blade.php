@@ -173,6 +173,26 @@
     </style>
 @endsection
 
+@php 
+
+    $vnp_TransactionStatus_List = [
+        '00' => 'Giao dịch thành công',
+        '02' => 'Chưa thanh toán',
+        '07' => 'Trừ tiền thành công. Giao dịch bị nghi ngờ (liên quan tới lừa đảo, giao dịch bất thường).',
+        '09' => 'Giao dịch không thành công do: Thẻ/Tài khoản của khách hàng chưa đăng ký dịch vụ InternetBanking tại ngân hàng.',
+        '10' => 'Giao dịch không thành công do: Khách hàng xác thực thông tin thẻ/tài khoản không đúng quá 3 lần',
+        '11' => 'Giao dịch không thành công do: Đã hết hạn chờ thanh toán. Xin quý khách vui lòng thực hiện lại giao dịch.',
+        '12' => 'Giao dịch không thành công do: Thẻ/Tài khoản của khách hàng bị khóa.',
+        '13' => 'Giao dịch không thành công do Quý khách nhập sai mật khẩu xác thực giao dịch (OTP). Xin quý khách vui lòng thực hiện lại giao dịch.',
+        '24' => 'Giao dịch không thành công do: Khách hàng hủy giao dịch',
+        '51' => 'Giao dịch không thành công do: Tài khoản của quý khách không đủ số dư để thực hiện giao dịch.',
+        '65' => 'Giao dịch không thành công do: Tài khoản của Quý khách đã vượt quá hạn mức giao dịch trong ngày.',
+        '75' => 'Ngân hàng thanh toán đang bảo trì.',
+        '79' => 'Giao dịch không thành công do: KH nhập sai mật khẩu thanh toán quá số lần quy định. Xin quý khách vui lòng thực hiện lại giao dịch',
+        '99' => 'Lỗi không xác định.'
+    ];
+@endphp
+
 @section('main')
     <div class="order">
         <div class="bill">
@@ -203,13 +223,19 @@
                             @if($orderInfo -> order_status == 2) 
                                 <p class="status success">Order Status Message: Completed</p>
                             @endif
-                            @if($orderInfo -> payment_status == 1 && $orderInfo -> payment_method == '2') 
+                            @if($orderInfo -> payment_status == 1 && $orderInfo -> payment_method == '2' && $orderInfo -> vnp_TransactionStatus == '00') 
                                 <p class="status success">Đã thanh toán
                                     <br>
                                     <span style = "font-weight: 400">Mã giao dịch: #{{$orderInfo -> order_code}}</span>
                                 </p>
-                            @elseif($orderInfo -> payment_status != 1 && $orderInfo -> payment_method == '2')
-                                <p class="status warning">Chờ thanh toán</p>
+                            @else
+                                <p class="status error">
+                                    @foreach($vnp_TransactionStatus_List as $key => $value) 
+                                        @if($key == $orderInfo -> vnp_TransactionStatus)
+                                            {{$value}}
+                                        @endif
+                                    @endforeach
+                                </p>
                             @endif
                         </div>
                     </div>
@@ -219,7 +245,7 @@
                             <p>Họ tên: {{$orderInfo -> user -> name}}</p>
                             <p>Email: {{$orderInfo -> user -> email}}</p>
                             <p>Điện thoại: {{$orderInfo -> user -> phone_number}}</p>
-                            <p>Địa chỉ: {{$orderInfo -> user -> address}}</p>
+                            <p>Địa chỉ: {{$orderInfo -> shipping_address}}</p>
                         </div>
                     </div>
                 </div>

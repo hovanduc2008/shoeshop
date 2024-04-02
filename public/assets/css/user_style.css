@@ -143,7 +143,9 @@ body {
     height: 40px;
     border: 1px solid #ccc;
     display: flex;
+    align-items: center;
     border-radius: 3px;
+    border-radius: 100px;
 }
 
 .search_icon {
@@ -162,6 +164,8 @@ body {
     padding: 0 7px;
     border: none;
     width: 200px;
+    margin-left: 4px;
+    margin-right: 2px;
 }
 
 .search input:focus,
@@ -170,15 +174,24 @@ body {
 }
 
 .search select {
-    height: 100%;
+    height: 30px;
     border: none;
-    width: 140px;
+    width: 120px;
+    border-radius: 1000px;
+    padding: 0 6px;
+    margin-left: 5px;
+}
+
+.search select:focus {
+    box-shadow: 0px 0px 1px #eee;
 }
 
 .nav {
-    background-color: #333333;
-    color: #fff;
+    
+    color: #1111!important;
     height: 50px;
+    display: flex;
+    align-items: center;
 }
 
 .nav .container {
@@ -191,11 +204,14 @@ body {
 }
 
 .nav .container .right .cart_btn {
-    background-color: rgb(226, 1, 1);
-    min-width: 200px;
+    border: 1px solid red;
+    min-width: 150px;
     height: 100%;
     font-size: 1.7rem;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav .container .right .cart_btn i {
@@ -203,28 +219,40 @@ body {
 }
 
 .nav .container .right .cart_btn:hover {
+    background-color: rgb(255, 191, 191)!important;
     opacity: 0.9;
 }
 
 .nav .container .right .cart_btn span:nth-child(3) {
+    color: #fff;
     font-size: 1.5rem;
     background-color: red;
     padding: 7px 14px;
     margin-left: 10px;
-    border-radius: 4px;
+    border-radius: 400px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav a {
-    color: #fff;
+    color: #111!important;
+    font-weight: 500;
+    border-radius: 400px;
     text-decoration: none;
-    height: 100%;
-    display: block;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     line-height: 50px;
     padding:0 20px;
 }
 
 .nav a:hover {
     background-color: #636363;
+    color: #fff!important;
 }
 
 .sidebar {
@@ -512,3 +540,15 @@ body {
 }
 
 
+.logOutBtn {
+    pointer-events: none;
+    opacity: 0;
+    width: 0!important;
+    transition: all 0.3s ease-in-out;
+}
+
+.logOutBtn_Active {
+    pointer-events: auto;
+    opacity: 1;
+    width: 120px!important;
+}

@@ -1,8 +1,8 @@
 @php
     $menu_list = [
         [
-            "title" => "TRANG CHỦ",
-            "link" => route('home-page')
+            "title" => "<i class='fa-solid fa-house'></i>",
+            "link" => route('landing-page')
         ],
         [
             "title" => "GIỚI THIỆU",
@@ -14,7 +14,7 @@
             "link" => '#',
         ],
         [
-            "title" => "TIN TỨC",
+            "title" => "BÀI VIẾT",
             "link" => route('article')
         ],
         [
@@ -32,13 +32,13 @@
     <div class="container">
         <div class="left">
             @foreach($menu_list as $menu)
-                <a href="{{$menu['link']}}">{{$menu['title']}}</a>
+                <a href="{{$menu['link']}}">{!!$menu['title']!!}</a>
             @endforeach
         </div>
         <div class="right">
             <a class="cart_btn" href="{{route('cart')}}">
                 <i class="fa-solid fa-cart-shopping"></i>
-                <span>MY CART</span>
+                <span></span>
                 <span>{{session() -> get('cart') != null && count(session() -> get('cart')) > 0 ? count(session() -> get('cart')) : 0}}</span>
             </a>
         </div>

@@ -22,6 +22,20 @@ class HomeController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
+    function landing(Request $request) {
+        $categories = $this->categoryRepository->all();
+        if(!empty($request->cate)) $category = $this -> categoryRepository -> findById($request->cate);
+        else $category = null;
+
+        $filterProduct = [];
+        if(!empty($request->cate)) $filterProduct[] = [['category_id' => $request->cate]];
+        $products = $this->productRepository->findWhere($filterProduct);
+        if(count($products) > 0) $product = $products[0];
+        else $product = null;
+        
+        return view('user.landing', compact('categories', 'category', 'product'));
+    }
+
     function index(Request $request) {
         $filters = $this -> handleFilter($request);
         //dd($filters);

@@ -318,6 +318,14 @@
             outline: 1px solid #333;
         }
 
+        .box > select {
+            padding: 0 7px;
+            margin-top: 5px;
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
         .right .payment-info{
             margin-bottom: 10px;
             margin-top: 0;
@@ -412,21 +420,38 @@
                         <div class="payment-info">
                             <h4>Thông tin giao hàng</h4>
                             <div class="info-payment">
-                                <div class="box">
-                                    <label for="full_name">Họ, tên người nhận</label>
-                                    <input required id = "name" name = "full_name" value = "{{Auth::guard('web') -> user() -> name}}" type="text">
+                                <div>
+                                    <div class="box">
+                                        <label for="full_name">Họ, tên người nhận</label>
+                                        <input required id = "name" name = "full_name" value = "{{Auth::guard('web') -> user() -> name}}" type="text">
+                                    </div>
+                                    <div class="box">
+                                        <label for="phone_number">Điện thoại</label>
+                                        <input required  type="text" id = "phone_number" name = "phone_number" value = "{{Auth::guard('web') -> user() -> phone_number}}">
+                                    </div>
+                                    <div class="box">
+                                        <label for="email">Email</label>
+                                        <input required type="text" id = "email" name = "email" value = "{{Auth::guard('web') -> user() -> email}}">
+                                    </div>
                                 </div>
-                                <div class="box">
-                                    <label for="shipping_address">Địa chỉ nhận hàng</label>
-                                    <input required type="text" id = "shipping_address" name = "shipping_address" value = "{{Auth::guard('web') -> user() -> address}}">
-                                </div>
-                                <div class="box">
-                                    <label for="phone_number">Điện thoại</label>
-                                    <input required  type="text" id = "phone_number" name = "phone_number" value = "{{Auth::guard('web') -> user() -> phone_number}}">
-                                </div>
-                                <div class="box">
-                                    <label for="email">Email</label>
-                                    <input required type="text" id = "email" name = "email" value = "{{Auth::guard('web') -> user() -> email}}">
+                                <div>
+                                    <div class="box">
+                                        <label for="shipping_address">Địa chỉ nhận hàng</label>
+                                        <select name="province" id="province" required>
+                                            <option value="" disabled selected hidden>Tỉnh/Thành phố</option>
+                                            <input hidden type="text" name="province_name" id = 'province_name'>
+                                        </select>
+                                        <select name="district" id="district" required>
+                                            <option value="" disabled selected hidden>Quận/Huyện</option>
+                                            <input hidden type="text" name="district_name" id = 'district_name'>
+                                        </select>
+                                        <select name="commune" id="commune" required>
+                                            <option value="" disabled selected hidden>Xã/Phường</option>
+                                            <input hidden type="text" name="commune_name" id = 'commune_name'>
+                                        </select>
+                                        <input required type="text" placeholder = "Địa chỉ chi tiết" id = "shipping_address" name = "shipping_address" value = "{{Auth::guard('web') -> user() -> address}}">
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="box">
@@ -471,6 +496,8 @@
 
 @section('scripts')
     <script>
+        
+        const host = 'https://vapi.vnappmob.com/api/';
         // Lắng nghe sự kiện thay đổi phương thức thanh toán
         const paymentMethodRadios = document.getElementsByName('pay_method');
         paymentMethodRadios.forEach(radio => {
@@ -478,6 +505,20 @@
                 handlePaymentMethodChange(radio.value);
             });
         });
+
+        async function fetchData(apiUrl, param = '') {
+            try {
+                const response = await fetch(apiUrl + '/' + param);
+                if (!response.ok) {
+                throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                throw error; // Re-throw the error for handling elsewhere if needed
+            }
+        }
 
         // Hàm xử lý khi có sự thay đổi phương thức thanh toán
         function handlePaymentMethodChange(selectedValue) {
@@ -489,5 +530,76 @@
                 document.querySelector('.btn-pay').innerText = 'THANH TOÁN';
             }
         }
+
+        function splitStringByDash(inputString) {
+            // Sử dụng phương thức split để tách chuỗi thành một mảng các phần tử
+            // Dấu "-" là tham số truyền vào để tách chuỗi
+            var resultArray = inputString.split("-");
+            return resultArray;
+        }
+
+        function handleUpdateProvince() {
+            fetchData(host + 'province')
+            .then(data => {
+                const $provinceSelect = $('#province');
+                data = data.results;
+                
+                for (var i = 0; i < data.length; i++) {
+                    $provinceSelect.innerHTML += `<option value_name = "${data[i].province_name}" value="${data[i].province_id}-${data[i].province_name}">${data[i].province_name}</option>`;;
+                }
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('Error:', error);
+            });
+        }
+
+        handleUpdateProvince();
+
+        
+
+        function handleUpdateDistrict() {
+            fetchData(host + 'province/district', splitStringByDash($('#province').value)[0])
+            .then(data => {
+                const $provinceInput = $('#province_name');
+                const $provinceSelect = $('#province');
+                const $districtSelect = $('#district');
+                const $communeSelect = $('#commune');
+
+                $districtSelect.innerHTML = '<option value="" disabled selected hidden>Quận/Huyện</option>'
+                $communeSelect.innerHTML = '<option value="" disabled selected hidden>Xã/Phường</option>';
+                data = data.results;
+                
+                for (var i = 0; i < data.length; i++) {
+                    $districtSelect.innerHTML += `<option value="${data[i].district_id}-${data[i].district_name}">${data[i].district_name}</option>`;;
+                }
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('Error:', error);
+            });
+        }
+
+        $('#province').addEventListener('change', handleUpdateDistrict);
+
+        function handleUpdateCommune() {
+            fetchData(host + 'province/ward', splitStringByDash($('#district').value)[0])
+            .then(data => {
+                const $wardSelect = $('#ward');
+                const $communeSelect = $('#commune');
+                $communeSelect.innerHTML = '<option value="" disabled selected hidden>Xã/Phường</option>';
+                data = data.results;
+                
+                for (var i = 0; i < data.length; i++) {
+                    $communeSelect.innerHTML += `<option value="${data[i].ward_id}-${data[i].ward_name}">${data[i].ward_name}</option>`;;
+                }
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('Error:', error);
+            });
+        }
+
+        $('#district').addEventListener('change', handleUpdateCommune);
     </script>
 @endsection

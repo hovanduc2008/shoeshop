@@ -25,10 +25,17 @@ class ProductController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
+    public function getSuggestProducts($cate_id, $product_id) {
+        $sql = "SELECT * FROM products WHERE category_id = '$cate_id'  AND id != '$product_id' ORDER BY hot desc LIMIT 5 ";
+        // $sql = "SELECT * FROM products WHERE category_id = '$cate_id'  LIMIT 5";
+        return DB::select($sql);
+    }
+
     public function detail(Request $request)
     {   
         $slug = $request -> slug;
 
+        
 
         
 
@@ -38,6 +45,9 @@ class ProductController extends Controller
         }else {
             $foundProduct = null;
         }
+
+        if(!empty($foundProduct)) $suggestProducts = $this -> getSuggestProducts($foundProduct -> category_id, $foundProduct -> id);
+        else $suggestProducts = null;
 
 
         $reviews = Review::where('product_id', $foundProduct -> id) 
@@ -59,7 +69,7 @@ class ProductController extends Controller
         $reviewself = null;
 
 
-        return view('user.product-detail', compact('foundProduct', 'reviews', 'reviewself', 'star_avg'));
+        return view('user.product-detail', compact('foundProduct', 'reviews', 'reviewself', 'star_avg', 'suggestProducts'));
     }
 
     public function handleReview(Request $request) {

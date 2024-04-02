@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Charts\SampleChart;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 
@@ -65,8 +66,40 @@ class OrderController extends Controller
         return $orders;
     }
 
+    public function selectTopCustomer() {
+        $sql = "SELECT U.id, U.name, SUM(O.total_amount) AS I, COUNT(O.id) as I2  FROM users as U 
+        INNER JOIN orders as O ON U.id = O.user_id
+        GROUP BY U.id 
+        ORDER BY I DESC
+        LIMIT 5  
+        ";
+        return DB::select($sql);
+    }
+
+    public function selectTopProduct() {
+        $sql = "SELECT P.id,P.title, OD.size, SUM(OD.item_price * OD.quantity) AS I, SUM(OD.quantity) AS I2 FROM products as P 
+        INNER JOIN order_details AS OD ON P.id = OD.product_id
+        GROUP BY P.id, OD.size ORDER BY I DESC LIMIT 5
+        ";
+
+        return DB::select($sql);
+    }
+
     // Thống kê
-    public function statistics(Request $request) {        
+    public function statistics(Request $request) {
+        $countCustomer = $this -> customerRepository -> countWhere(['is_admin' => '0'], ['id']);
+        $countOrder = $this -> orderRepository -> countWhere([], ['id']);
+        $totalRevenue = DB::selectOne("SELECT SUM(total_amount) as total FROM orders");
+        $totalRevenue = $totalRevenue -> total;
+
+        $topCustomers = $this -> selectTopCustomer();
+        $topProducts = $this -> selectTopProduct();
+        
+        return view('admin.orders.statistics', 
+        compact('countCustomer', 
+        'countOrder', 'totalRevenue', 'topCustomers', 'topProducts'
+        ));
+        
     }
 
 }
