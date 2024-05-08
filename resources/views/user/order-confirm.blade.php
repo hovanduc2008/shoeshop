@@ -387,7 +387,7 @@
                                 <div class="product-item" data-product-id = "{{$product -> id}}">
                                     <div class="info">
                                         <div class="detail-info">
-                                            <div class="name"><a target = "_blank" href="{{route('product_detail', ['slug' => $product -> slug])}}">{{$product -> title}}</a></div>
+                                            <div class="name"><a target = "_blank" href="{{route('product_detail', ['slug' => $product -> slug])}}">{{$product -> title}}({{$product -> product_color}})</a></div>
                                             <div class="price">
                                                 @if($product -> discount)
                                                     <p class="real-price">{{number_format($product -> price - $product -> price * $product -> discount / 100)}} ₫</p>

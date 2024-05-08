@@ -66,6 +66,7 @@ class OrderController extends Controller
                     $totalPrice += ($product['price'] * $item['quantity'] - $product['price'] * $item['quantity'] * $product['discount'] / 100);
                     $product->quantityInCart = $item['quantity'];
                     $product->product_size = $item['product_size'];
+                    $product->product_color = $item['product_color'];
                     $productsInCart[] = $product;
                     $order_title .= $product -> title.', ';
                 }
@@ -99,6 +100,7 @@ class OrderController extends Controller
                     $totalPrice += ($product['price'] * $item['quantity'] - $product['price'] * $item['quantity'] * $product['discount'] / 100);
                     $product->quantityInCart = $item['quantity'] ?? 1;
                     $product->product_size = $item['product_size'];
+                    $product->product_color = $item['product_color'];
                     $productsInCart[] = $product;
                 }
             }
@@ -127,6 +129,7 @@ class OrderController extends Controller
             DB::table('order_details') -> insert([
                 'product_id' => $product -> id,
                 'size' => $product->product_size,
+                'color_code' => $product->product_color,
                 'order_id' => $orderId,
                 'quantity' => $product -> quantityInCart,
                 'item_price' => $product -> price - $product -> price * $product -> discount / 100

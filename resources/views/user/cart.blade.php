@@ -306,13 +306,13 @@
                             $total = 0;
                         @endphp 
                         @foreach($productsInCart as $product)
-                            <div class="product-item" data-product-size = "{{$product -> product_size}}" data-product-id = "{{$product -> id}}">
+                            <div class="product-item" data-product-size = "{{$product -> product_size}}" data-product-color = "{{$product -> product_color}}" data-product-id = "{{$product -> id}}">
                                 <div class="select">
                                     <input type="checkbox" name="" id="">
                                 </div>
                                 <div class="info">
                                     <div class="detail-info">
-                                        <div class="name"><a target = "_blank" href="{{route('product_detail', ['slug' => $product -> slug])}}">{{$product -> title}}</a></div>
+                                        <div class="name"><a target = "_blank" href="{{route('product_detail', ['slug' => $product -> slug])}}">{{$product -> title}}({{$product -> product_color ?? ''}})</a></div>
                                         <div class="price">
                                             @if(!empty($product -> discount))
                                                 <p class="real-price">{{number_format($product -> price - $product -> price * $product -> discount / 100)}} ₫</p>
@@ -342,6 +342,8 @@
                                 </div>
                                 <form action = "{{route('removeCart', ['productId' => $product -> id])}}" method = "POST" class = "item-action">
                                     <button><i class="fa-solid fa-trash"></i></button>
+                                    <input type="hidden" value = "{{$product -> product_size}}" name="size">
+                                    <input type="hidden" value = "{{$product -> product_color}}" name="color">
                                     @csrf
                                     @method('POST')
                                 </form>
@@ -481,12 +483,14 @@
             checkboxes.forEach(function(checkbox) {
                 var productId = checkbox.closest('.product-item').getAttribute('data-product-id');
                 var productsize = checkbox.closest('.product-item').getAttribute('data-product-size');
+                var productcolor = checkbox.closest('.product-item').getAttribute('data-product-color');
                 var quantity = checkbox.closest('.product-item').querySelector('.item-quantity input').value;
                 
                 selectedProducts.push({
                     productId: productId,
                     quantity: quantity,
-                    size: productsize
+                    size: productsize,
+                    color: productcolor
                 });
             });
 

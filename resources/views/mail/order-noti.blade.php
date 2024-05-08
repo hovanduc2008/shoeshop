@@ -106,7 +106,7 @@
             </div>
             <div class="invoice-title">
                 <h3>HÓA ĐƠN</h3>
-                <p><i>Ngày: 20/08/2003</i></p>
+                <p><i>Ngày: {{date('d/m/Y')}}</i></p>
             </div>
         </div>
         <div class="invoice-body">
@@ -138,7 +138,7 @@
                     <tbody>
                         @foreach($order_list as $item)
                             <tr>
-                                <td>[{{$item -> size}}] {{$item -> product -> title}}</td>
+                                <td>[{{$item -> size}}] {{$item -> product -> title}} ({{$item -> color_code}})</td>
                                 <td>{{$item -> quantity}}</td>
                                 <td>{{number_format($item -> item_price)}} đ</td>
                                 <td>{{number_format($item -> item_price * $item -> quantity)}} đ</td>

@@ -350,6 +350,7 @@
 
 @php 
         $size_list = ["39", "39-40", "40", "40-41", "41", "40-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "45-46", "46", "47", "48", "49"];
+        $color_list = ["Xanh", "Đỏ", "Vàng", "Tím"];
 
         if(auth() -> guard('web') -> check()) 
             $isFavourite = DB::table('favourites') 
@@ -408,6 +409,12 @@
                             <option value="0">-Size sản phẩm-</option>
                             @foreach($size_list as $size)
                                 <option value="{{$size}}">{{$size}}</option>
+                            @endforeach
+                        </select>
+                        <select name="color" id="">
+                            <option value="0">-Màu sắc-</option>
+                            @foreach($color_list as $color)
+                                <option value="{{$color}}">{{$color}}</option>
                             @endforeach
                         </select>
                         <p class="price">

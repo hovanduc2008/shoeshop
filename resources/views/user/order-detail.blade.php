@@ -268,7 +268,7 @@
                                 <tr>
                                     <td>{{$product -> product_id}}</td>
                                     <td><img src="{{$product -> product -> thumbnail}}" alt="{{$product -> product -> title}}"></td>
-                                    <td>[{{$product -> size }}] {{$product -> product -> title}}</td>
+                                    <td>[{{$product -> size }}] {{$product -> product -> title}}({{$product -> color_code }})</td>
                                     <td>{{number_format($product -> item_price)}} đ</td>
                                     <td>{{$product -> quantity}}</td>
                                     <td>{{number_format($product -> item_price * $product -> quantity) }} đ</td>

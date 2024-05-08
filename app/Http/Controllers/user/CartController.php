@@ -34,6 +34,7 @@ class CartController extends Controller
             if ($product) {
                 $product->quantityInCart = $item['cart_quantity'];
                 $product -> product_size = $item['product_size'];
+                $product -> product_color = $item['product_color'];
                 $productsInCart[] = $product;
             }
         } 
@@ -43,9 +44,11 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $productId)
     {
-        if(empty($request -> size)) return redirect()->back();
+        if(empty($request -> size) || empty($request -> color)) return redirect()->back();
         $product = Product::findOrFail($productId);
         $productSize = $request -> size;
+        $productColor = $request -> color;
+
 
         // Kiểm tra xem giỏ hàng đã tồn tại hay chưa
         if (!$request->session()->has('cart')) {
@@ -58,7 +61,7 @@ class CartController extends Controller
         $existingProduct = null;
 
         foreach ($cart as $key => $item) {
-            if ($item['productid'] == $productId && $item['product_size'] == $productSize) {
+            if ($item['productid'] == $productId && $item['product_size'] == $productSize && $item['product_color'] == $productColor) {
                 $existingProduct = $key;
                 break;
             }
@@ -73,7 +76,8 @@ class CartController extends Controller
                 'productid' => $productId,
                 'cart_quantity' => 1,
                 'quantity' => $request->cart_quantity,
-                'product_size' => $productSize
+                'product_size' => $productSize,
+                'product_color' => $productColor
             ];
         }
 
@@ -89,10 +93,8 @@ class CartController extends Controller
             
             $cart = $request->session()->get('cart');
 
-            //return response()->json($cart);
-
             foreach ($cart as &$item) {
-                $product = $this->findProduct($request->all(), $item['productid'], $item['product_size']);
+                $product = $this->findProduct($request->all(), $item['productid'], $item['product_size'], $item['product_color']);
                 
                 if (!empty($product)) {
                     $item['quantity'] = $product['quantity'];
@@ -111,10 +113,11 @@ class CartController extends Controller
         return 0;
     }
 
-    public function findProduct($cart, $productId, $size)
+    public function findProduct($cart, $productId, $size, $color)
     {
+        
         foreach ($cart as $product) {
-            if ($product['productId'] == $productId && $product['size'] == $size) {
+            if ($product['productId'] == $productId && $product['size'] == $size && $product['color'] == $color) {
                 return $product;
             }
         }
@@ -151,27 +154,25 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Giỏ hàng không tồn tại.');
         }
 
+        
+
         $cart = $request->session()->get('cart');
 
-        // Tìm vị trí sản phẩm trong giỏ hàng
         $productIndex = null;
         foreach ($cart as $key => $item) {
-            if ($item['productid'] == $productId) {
+            if ($item['productid'] == $productId && $item['product_size'] == $request -> size && $item['product_color'] == $request -> color) {
                 $productIndex = $key;
                 break;
             }
         }
 
-        // Nếu sản phẩm tồn tại trong giỏ hàng, xóa sản phẩm đó khỏi mảng giỏ hàng
         if ($productIndex !== null) {
             unset($cart[$productIndex]);
-            // Cập nhật lại mảng giỏ hàng
             $cart = array_values($cart);
         }
 
-        // Lưu lại giỏ hàng trong session
         $request->session()->put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
+        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng');
     }
 }

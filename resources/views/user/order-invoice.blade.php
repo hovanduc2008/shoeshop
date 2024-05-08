@@ -189,7 +189,7 @@
                     <tbody>
                         @foreach($order_details as $item)
                             <tr>
-                                <td style = "padding-right: 4px;">{{$item -> product -> title}}</td>
+                                <td style = "padding-right: 4px;">{{$item -> product -> title}}({{$item -> color_code}})</td>
                                 <td style = "padding-right: 4px;">{{$item -> size}}</td>
                                 <td style = "padding-right: 4px; text-align: right">{{$item -> quantity}}</td>
                                 <td style = "padding-right: 4px; text-align: right">{{number_format($item -> item_price)}} đ</td>

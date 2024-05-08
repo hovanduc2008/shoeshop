@@ -18,7 +18,8 @@ class OrderDetail extends Model
         'order_id',
         'size',
         'quantity',
-        'item_price'
+        'item_price',
+        'coler_code'
     ];
 
     public function product()

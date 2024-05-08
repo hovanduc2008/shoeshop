@@ -162,29 +162,12 @@ Route::prefix('/') -> group(function() {
     Route::get('handle-logout', [UserAuthController::class, 'handleLogout']) -> name('handle-logout');
     Route::post('handle-review', [UserProductController::class, 'handleReview']) -> name('handle-review');
 
-    // Route::get('search', [UserSearchController::class, 'index']) -> name('search');
-    // Route::get('auth', [UserAuthController::class, 'index']) -> name('auth');
-    // Route::post('handle-forget', [UserAuthController::class, 'handleForgetPassword']) -> name('handle-forget');
-
-    // Route::get('products', [UserProductController::class, 'index']) -> name('products');
-    // Route::get('products/{slug}', [UserProductController::class, 'detail']) -> name('product_detail');
-    // Route::get('products/{slug}/read', [UserProductController::class, 'readbook']) -> name('read_book');
-    // Route::get('authors', [UserAuthorController::class, 'index']) -> name('authors');
-    // Route::get('authors/{slug}', [UserAuthorController::class, 'detail']) -> name('author_detail');
     Route::get('cart', [UserCartController::class, 'index']) -> name('cart');
 
     Route::post('cart/add/{productId}', [UserCartController::class, 'addToCart']) -> name('addToCart');
     Route::post('cart/update/{productId}',[UserCartController::class, 'updateCartItem']) -> name('updateCartItem');
     Route::post('cart/updateorder',[UserCartController::class, 'updateOrder']) -> name('updateOrder');
     Route::post('cart/remove/{productId}',[UserCartController::class, 'removeCartItem']) -> name('removeCart');
-
-
-    // Route::get('proxy-pdf', [ProxyController::class, 'getPdf'])->middleware('cors')->name('proxy-pdf');
-    // Route::get('borrow/{slug}', [UserBorrowController::class, 'borrow']) -> name('borrow');
-    // Route::post('borrow/{id}', [UserBorrowController::class, 'borrow']) -> name('handle_borrow');
-
-    // Route::get('profile', [UserAuthController::class, 'profile']) -> name('profile');
-    // Route::put('profile', [UserAuthController::class, 'update_profile']) -> name('update_profile');
 
     Route::get('order', [UserOrderController::class, 'index']) -> name('order');
     Route::get('order-invoice-view/{id}', [UserOrderController::class, 'orderInvoiceView']) -> name('order-invoice-view');
