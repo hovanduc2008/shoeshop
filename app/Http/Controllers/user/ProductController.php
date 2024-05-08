@@ -26,7 +26,7 @@ class ProductController extends Controller
     }
 
     public function getSuggestProducts($cate_id, $product_id) {
-        $sql = "SELECT * FROM products WHERE category_id = '$cate_id'  AND id != '$product_id' ORDER BY hot desc LIMIT 5 ";
+        $sql = "SELECT * FROM products WHERE category_id = '$cate_id'  AND status = 1 AND id != '$product_id' ORDER BY hot desc LIMIT 5 ";
         // $sql = "SELECT * FROM products WHERE category_id = '$cate_id'  LIMIT 5";
         return DB::select($sql);
     }
